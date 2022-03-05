@@ -30,10 +30,7 @@ export const init = (targetQuery) => {
         });
       };
 
-      const playerCharacter = getCharacter(
-        ({ id }) => id === "player-character"
-      );
-      camera.setTarget(playerCharacter.model);
+      const playerCharacter = getCharacter(({ id }) => id === "player-0");
       setUnitControllerTarget({
         target: playerCharacter,
         world,

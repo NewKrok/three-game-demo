@@ -12,7 +12,7 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
   },
-  fog: new THREE.Fog(0x88ccee, 0, 50),
+  fog: new THREE.Fog(0x88ccee, 0, 100),
   entities: () => {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(5, 15, 15);
@@ -46,45 +46,61 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
     ],
   },
   characters: [
-    {
-      id: "player-character",
+    ...Array.from({ length: 4 }).map((_, index) => ({
+      id: "player-" + index,
       characterId: CharacterId.SOLIDER,
-      position: new THREE.Vector3(0, 2, 0),
+      position: new THREE.Vector3(),
       rotation: new THREE.Vector3(),
-      /* position: ({ getStaticModel }) =>
-        getStaticModel(({ id }) => id === "level")
-          .model.scene.children.find(({ name }) => name.includes("spawn"))
-          .position.clone(),
-      rotation: ({ getStaticModel }) =>
-        getStaticModel(({ id }) => id === "level")
-          .model.scene.children.find(({ name }) => name.includes("spawn"))
-          .rotation.clone(), */
-    },
-    ...Array.from({ length: 10 }).map((_, index) => ({
-      id: "test " + index,
-      characterId: CharacterId.SOLIDER,
-      position: new THREE.Vector3(
-        Math.random() * 40 - 20,
-        10,
-        Math.random() * 40 - 20
-      ),
-      rotation: new THREE.Vector3(0, Math.random() * (Math.PI * 2), 0),
     })),
   ],
   staticModels: [
-    {
+    /* {
       id: "level",
       modelId: GLTFModelId.TEST,
       position: new THREE.Vector3(),
       rotation: new THREE.Vector3(),
+    }, */
+    {
+      id: "level-1-graphic",
+      modelId: GLTFModelId.LEVEL_1_GRAPHIC,
+      position: new THREE.Vector3(),
+      rotation: new THREE.Vector3(),
+    },
+    {
+      id: "level-1-collision",
+      modelId: GLTFModelId.LEVEL_1_COLLISION,
+      position: new THREE.Vector3(),
+      rotation: new THREE.Vector3(),
     },
   ],
-  onLoaded: ({ getModule, getStaticModel }) => {
-    const scene = getStaticModel("level").scene;
-    getModule(MODULE_ID.OCTREE).worldOctree.fromGraphNode(scene);
-    scene.traverse((child) => {
-      if (child.isMesh)
+  onLoaded: ({ getModule, getStaticModel, getCharacter, camera }) => {
+    const collision = getStaticModel("level-1-collision").scene;
+    collision.visible = false;
+    getModule(MODULE_ID.OCTREE).worldOctree.fromGraphNode(collision);
+
+    const graphic = getStaticModel("level-1-graphic").scene;
+    const spawnPoints = Array.from({ length: 4 }).reduce(
+      (prev, _, index) => ({
+        ...prev,
+        [`p${index}`]: `player-${index}`,
+      }),
+      {}
+    );
+    graphic.traverse((child) => {
+      if (child.isMesh) {
         if (child.material.map) child.material.map.anisotropy = 4;
+        const spawnPoint = spawnPoints[child.name];
+        if (spawnPoint) {
+          const character = getCharacter(({ id }) => id === spawnPoint);
+          if (child.name === "p0") {
+            camera.setTarget(character.model);
+            camera.updateRotation({ x: child.rotation.z });
+          }
+          character.teleportTo(child.position);
+          character.setRotation(child.rotation.z);
+          child.visible = false;
+        }
+      }
     });
   },
 });

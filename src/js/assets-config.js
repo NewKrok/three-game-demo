@@ -48,7 +48,13 @@ export const FBXSkeletonAnimation = {
   FEMALE_JUMP_LOOP: "FEMALE_JUMP_LOOP",
 };
 
-export const GLTFModelId = { LEVEL_1: "LEVEL_1", HOME: "HOME", TEST: "TEST" };
+export const GLTFModelId = {
+  LEVEL_1: "LEVEL_1",
+  HOME: "HOME",
+  TEST: "TEST",
+  LEVEL_1_GRAPHIC: "LEVEL_1_GRAPHIC",
+  LEVEL_1_COLLISION: "LEVEL_1_COLLISION",
+};
 
 export const AudioId = { GAME_BACKGROUND: "GAME_BACKGROUND" };
 
@@ -312,6 +318,14 @@ export const assetsConfig = {
     {
       id: GLTFModelId.TEST,
       url: "./assets/models/collision-world.glb",
+    },
+    {
+      id: GLTFModelId.LEVEL_1_GRAPHIC,
+      url: "./assets/models/level-1-graphic.glb",
+    },
+    {
+      id: GLTFModelId.LEVEL_1_COLLISION,
+      url: "./assets/models/level-1-collision.glb",
     },
   ],
   audio: [
