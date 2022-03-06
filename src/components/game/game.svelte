@@ -24,7 +24,7 @@
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-      width: 35px;
+      width: 25px;
       height: auto;
       object-fit: contain;
     }

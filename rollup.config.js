@@ -1,11 +1,15 @@
 import autoPreprocess from "svelte-preprocess";
 import commonjs from "@rollup/plugin-commonjs";
 import css from "rollup-plugin-css-only";
+import dotenv from "dotenv";
 import livereload from "rollup-plugin-livereload";
+import replace from "@rollup/plugin-replace";
 import resolve from "@rollup/plugin-node-resolve";
 import { scss } from "svelte-preprocess";
 import svelte from "rollup-plugin-svelte";
 import { terser } from "rollup-plugin-terser";
+
+dotenv.config();
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -43,6 +47,9 @@ export default {
     file: "public/build/bundle.js",
   },
   plugins: [
+    replace({
+      PACKAGE_VERSION: JSON.stringify(process.env.npm_package_version),
+    }),
     svelte({
       compilerOptions: {
         // enable run-time checks when not in production
