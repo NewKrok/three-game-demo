@@ -3,10 +3,10 @@ import * as THREE from "three";
 import { GLTFModelId, TextureId } from "./assets-config";
 
 import { CharacterId } from "./unit-config";
-import { MODULE_ID } from "./three-game/modules/modules";
-import { getDefaultWorldConfig } from "./three-game/world";
-import { octreeModule } from "./three-game/modules/octree/octree";
-import { patchObject } from "./three-utils/object-utils";
+import { MODULE_ID } from "@newkrok/three-game/src/js/newkrok/three-game/modules/modules.js";
+import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
+import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/octree/octree.js";
+import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
 const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   renderer: {

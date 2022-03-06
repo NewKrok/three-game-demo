@@ -4,10 +4,10 @@ import { FBXModelId, FBXSkeletonAnimation } from "./assets-config.js";
 import {
   ModelSocketId,
   UnitAnimationId,
-} from "./three-game/unit/unit-enums.js";
+} from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
 
-import { basicCharacter } from "./three-game/boilerplates/unit-boilerplates.js";
-import { patchObject } from "./three-utils/object-utils.js";
+import { basicCharacter } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/unit-boilerplates.js";
+import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
 export const CharacterId = {
   SOLIDER: "SOLIDER",

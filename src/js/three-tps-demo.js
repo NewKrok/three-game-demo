@@ -2,14 +2,13 @@ import { AudioId, assetsConfig } from "./assets-config";
 
 import TPSWorldConfig from "./tps-world-config";
 import { characterConfig } from "./unit-config";
-import { createTPSWorld } from "./three-tps/tps-world";
+import { createTPSWorld } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
 import { effectsConfig } from "./effects-config";
-import { getTexture } from "./three-utils/assets/assets";
-import { playAudio } from "./three-utils/audio/audio";
-import { setUnitControllerTarget } from "./three-tps/control/unit-controller";
+import { getTexture } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
+import { setUnitControllerTarget } from "@newkrok/three-tps/src/js/newkrok/three-tps/control/unit-controller.js";
 import { updateParticleSystems } from "@newkrok/three-particles/src/js/effects/three-particles";
 
-export const init = (targetQuery) => {
+export const initThreeTPSDemo = (targetQuery) => {
   const target = document.querySelector(targetQuery);
   const crosshair = target.querySelector(".crosshair");
 
@@ -49,5 +48,3 @@ export const init = (targetQuery) => {
     })
     .catch((e) => console.log(`Ops! ${e}`));
 };
-
-init("#three-tps-demo");
