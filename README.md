@@ -6,13 +6,12 @@ Demo game project for **@newkrok/three-tps** https://www.npmjs.com/package/@newk
 
 https://www.newkrok.com/three-tps-demo/index.html
 
-![image](https://user-images.githubusercontent.com/13141660/156862148-2f34c20c-9fef-4c81-bc02-7feb030c395f.png)
+![image](https://user-images.githubusercontent.com/13141660/157567668-8f36998e-3d22-4253-ba88-880fcb81f1e5.png)
 
 # Assets
 
 **Used assets are free assets from unity asset store**
-- Environment https://assetstore.unity.com/packages/3d/props/polygon-starter-pack-low-poly-3d-art-by-synty-156819
-- Solider https://assetstore.unity.com/packages/3d/characters/low-poly-soldiers-demo-73611
+- Environment and character https://assetstore.unity.com/packages/3d/props/polygon-starter-pack-low-poly-3d-art-by-synty-156819
 - Skybox https://assetstore.unity.com/packages/2d/textures-materials/sky/colorskies-91541
 
 # Animations
