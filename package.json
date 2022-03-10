@@ -32,7 +32,7 @@
   "dependencies": {
     "@material/theme": "^13.0.0",
     "@newkrok/three-particles": "0.7.0",
-    "@newkrok/three-tps": "0.0.3",
+    "@newkrok/three-tps": "0.0.4",
     "@smui/button": "6.0.0-beta.15",
     "@smui/card": "6.0.0-beta.15",
     "@smui/dialog": "6.0.0-beta.15",

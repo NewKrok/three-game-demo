@@ -19,7 +19,7 @@ export const initThreeTPSDemo = (targetQuery) => {
     worldConfig: TPSWorldConfig,
   })
     .then((world) => {
-      const { camera, getCharacter, onUpdate } = world;
+      const { getCharacter, onUpdate, scene } = world;
       crosshair.style.visibility = "hidden";
       document.onclick = () => {
         document.onclick = null;
