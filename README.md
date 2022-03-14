@@ -11,7 +11,7 @@ https://www.newkrok.com/three-tps-demo/index.html
 # Assets
 
 **Used assets are free assets from unity asset store**
-- Environment and character https://assetstore.unity.com/packages/3d/props/polygon-starter-pack-low-poly-3d-art-by-synty-156819
+- Environment, character and weapons https://assetstore.unity.com/packages/3d/props/polygon-starter-pack-low-poly-3d-art-by-synty-156819
 - Skybox https://assetstore.unity.com/packages/2d/textures-materials/sky/colorskies-91541
 
 # Animations
