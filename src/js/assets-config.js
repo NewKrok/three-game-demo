@@ -7,14 +7,14 @@ export const TextureId = {
   SKYBOX_4: "SKYBOX_4",
   SKYBOX_5: "SKYBOX_5",
   SKYBOX_6: "SKYBOX_6",
-  POLYGON_STARTER_BLUE: "POLYGON_STARTER_BLUE",
-  POLYGON_STARTER_BROWN: "POLYGON_STARTER_BROWN",
-  POLYGON_STARTER_GRAY: "POLYGON_STARTER_GRAY",
-  POLYGON_STARTER_YELLOW: "POLYGON_STARTER_YELLOW",
+  POLYGON_STARTER: "POLYGON_STARTER",
 };
 
 export const FBXModelId = {
   CHARACTERS: "CHARACTERS",
+  WATER_GUN_01: "WATER_GUN_01",
+  WATER_GUN_02: "WATER_GUN_02",
+  WATER_PISTOL_01: "WATER_PISTOL_01",
 };
 
 export const FBXSkeletonAnimation = {
@@ -71,26 +71,44 @@ export const assetsConfig = {
       url: "./assets/textures/skybox/back.webp",
     },
     {
-      id: TextureId.POLYGON_STARTER_BLUE,
+      id: TextureId.POLYGON_STARTER,
       url: "./assets/textures/polygon-starter-texture-01.webp",
-    },
-    {
-      id: TextureId.POLYGON_STARTER_BROWN,
-      url: "./assets/textures/polygon-starter-texture-02.webp",
-    },
-    {
-      id: TextureId.POLYGON_STARTER_GRAY,
-      url: "./assets/textures/polygon-starter-texture-03.webp",
-    },
-    {
-      id: TextureId.POLYGON_STARTER_YELLOW,
-      url: "./assets/textures/polygon-starter-texture-04.webp",
     },
   ],
   fbxModels: [
     {
       id: FBXModelId.CHARACTERS,
       url: "./assets/models/characters/model/characters.fbx",
+      material: {
+        materialType: THREE.MeshPhongMaterial,
+      },
+    },
+    {
+      id: FBXModelId.WATER_GUN_01,
+      url: "./assets/models/weapons/sm-wep-water-gun-01.fbx",
+      material: {
+        texture: {
+          id: TextureId.POLYGON_STARTER,
+        },
+      },
+    },
+    {
+      id: FBXModelId.WATER_GUN_02,
+      url: "./assets/models/weapons/sm-wep-water-gun-02.fbx",
+      material: {
+        texture: {
+          id: TextureId.POLYGON_STARTER,
+        },
+      },
+    },
+    {
+      id: FBXModelId.WATER_PISTOL_01,
+      url: "./assets/models/weapons/sm-wep-water-pistol-01.fbx",
+      material: {
+        texture: {
+          id: TextureId.POLYGON_STARTER,
+        },
+      },
     },
   ],
   fbxSkeletonAnimations: [

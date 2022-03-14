@@ -1,4 +1,5 @@
 <script>
+  import ToolSelector from "./../tool-selector/tool-selector.svelte";
   import { initThreeTPSDemo } from "../../js/three-tps-demo";
 
   window.onload = () => initThreeTPSDemo("#three-tps-demo");
@@ -6,7 +7,8 @@
 
 <div class="wrapper">
   <div id="three-tps-demo">
-    <img src="assets/images/crosshair.png" class="crosshair" />
+    <img alt="crosshair" src="assets/images/crosshair.png" class="crosshair" />
+    <ToolSelector />
   </div>
 </div>
 
