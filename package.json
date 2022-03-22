@@ -1,6 +1,6 @@
 {
   "name": "@newkrok/three-tps-demo",
-  "version": "0.0.4",
+  "version": "0.1.0",
   "description": "Demo game project for NewKrok's THREE TPS",
   "main": "src/js/three-tps-demo.js",
   "bin": {
@@ -32,7 +32,7 @@
   "dependencies": {
     "@material/theme": "^13.0.0",
     "@newkrok/three-particles": "0.7.0",
-    "@newkrok/three-tps": "0.0.5",
+    "@newkrok/three-tps": "0.1.0",
     "@smui/button": "6.0.0-beta.15",
     "@smui/card": "6.0.0-beta.15",
     "@smui/dialog": "6.0.0-beta.15",

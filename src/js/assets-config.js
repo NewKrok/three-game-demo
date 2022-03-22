@@ -7,6 +7,8 @@ export const TextureId = {
   SKYBOX_4: "SKYBOX_4",
   SKYBOX_5: "SKYBOX_5",
   SKYBOX_6: "SKYBOX_6",
+  SMOKE: "SMOKE",
+  POINT: "POINT",
   POLYGON_STARTER: "POLYGON_STARTER",
 };
 
@@ -35,6 +37,7 @@ export const FBXSkeletonAnimation = {
   RIFLE_WALK_BACKWARD: "RIFLE_WALK_BACKWARD",
   CHARACTERS_RIFLE_STRAFE_LEFT: "CHARACTERS_RIFLE_STRAFE_LEFT",
   CHARACTERS_RIFLE_STRAFE_RIGHT: "CHARACTERS_RIFLE_STRAFE_RIGHT",
+  CHARACTERS_VICTORY: "CHARACTERS_VICTORY",
 };
 
 export const GLTFModelId = {
@@ -69,6 +72,14 @@ export const assetsConfig = {
     {
       id: TextureId.SKYBOX_6,
       url: "./assets/textures/skybox/back.webp",
+    },
+    {
+      id: TextureId.SMOKE,
+      url: "./assets/textures/effects/smoke.webp",
+    },
+    {
+      id: TextureId.POINT,
+      url: "./assets/textures/effects/point.webp",
     },
     {
       id: TextureId.POLYGON_STARTER,
@@ -159,6 +170,10 @@ export const assetsConfig = {
     {
       id: FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_RIGHT,
       url: "./assets/models/characters/animations/rifle-strafe-right.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_VICTORY,
+      url: "./assets/models/characters/animations/victory.fbx",
     },
   ],
   gltfModels: [

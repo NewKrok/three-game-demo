@@ -1,6 +1,6 @@
 import * as THREE from "three";
 
-import { FBXModelId, GLTFModelId, TextureId } from "./assets-config";
+import { GLTFModelId, TextureId } from "./assets-config";
 import {
   UnitAction,
   onUnitAction,
@@ -14,6 +14,7 @@ import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/ass
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/octree/octree.js";
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/projectiles/projectiles.js";
+import { toolConfig } from "./tool-config";
 
 const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   renderer: {
@@ -55,7 +56,7 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   characters: [
     ...Array.from({ length: 4 }).map((_, index) => ({
       id: "player-" + index,
-      characterId: CharacterId.MALE_CHARACTER,
+      characterId: CharacterId.FEMALE_CHARACTER,
     })),
   ],
   staticModels: [
@@ -96,20 +97,13 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
     };
 
     let selectedToolId = null;
-    const availableTools = [
-      FBXModelId.WATER_PISTOL_01,
-      FBXModelId.WATER_GUN_01,
-      FBXModelId.WATER_GUN_02,
-    ];
     const createTools = () =>
-      availableTools.map((id) => {
-        const model = getFBXModel(id);
-        model.rotation.set(-Math.PI * 1.4, Math.PI, Math.PI);
-        model.position.x = 3;
-        model.position.y = 13;
-        model.position.z = 0;
+      toolConfig.map((tool) => {
+        const object = getFBXModel(tool.model.fbx.id);
+        object.rotation.set(Math.PI / 2, Math.PI, Math.PI);
+        object.position.copy(tool.model.position);
 
-        return { id, model, socketId: ModelSocketId.RIGHT_HAND };
+        return { ...tool, object };
       });
 
     const initPlayer = (player, target) => {
@@ -122,29 +116,48 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
             action: UnitAction[`CHOOSE_TOOL_${i}`],
             callback: () => {
               selectedToolId = i - 2;
-              unit.chooseTool(availableTools[selectedToolId]);
+              unit.chooseTool(toolConfig[selectedToolId]?.id);
             },
           });
         }
-        const projectileStartSocket = unit.getSocket(
-          ModelSocketId.PROJECTILE_START
-        );
-        projectileStartSocket.position.y += 28;
-        projectileStartSocket.position.x += 5;
+        const projectileStartSocket = new THREE.Object3D();
+        // projectileStartSocket.add(new THREE.AxesHelper(20000));
+        projectileStartSocket.position.y = 55;
+        projectileStartSocket.position.x = 3;
+        projectileStartSocket.position.z = -8;
+        unit.registerObjectIntoSocket({
+          id: "projectileStart",
+          object: projectileStartSocket,
+          socketId: ModelSocketId.RIGHT_HAND,
+        });
+        projectileStartSocket.visible = true;
         onUnitAction({
           action: UnitAction.CHOOSE_NEXT_TOOL,
           callback: () => {
             selectedToolId++;
-            if (selectedToolId > availableTools.length) selectedToolId = 0;
-            unit.chooseTool(availableTools[selectedToolId]);
+            if (selectedToolId > toolConfig.length) selectedToolId = 0;
+            unit.chooseTool(toolConfig[selectedToolId]);
           },
         });
         onUnitAction({
           action: UnitAction.CHOOSE_PREV_TOOL,
           callback: () => {
             selectedToolId--;
-            if (selectedToolId < -1) selectedToolId = availableTools.length - 1;
-            unit.chooseTool(availableTools[selectedToolId]);
+            if (selectedToolId < -1) selectedToolId = toolConfig.length - 1;
+            unit.chooseTool(toolConfig[selectedToolId]);
+          },
+        });
+        // TODO: Temporary animation, preparation for the character selection
+        onUnitAction({
+          action: UnitAction.Interaction,
+          callback: () => {
+            if (!unit.userData.showVictoryAnimation) {
+              unit.userData.showVictoryAnimation = true;
+              setTimeout(
+                () => (unit.userData.showVictoryAnimation = false),
+                1000
+              );
+            }
           },
         });
       }

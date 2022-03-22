@@ -5,15 +5,21 @@ import {
   UnitAnimationId,
   basicCharacter,
 } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/unit-boilerplates.js";
+import {
+  deepMerge,
+  patchObject,
+} from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
-import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
+export const CustomUnitAnimationId = {
+  CHARACTERS_VICTORY: "CHARACTERS_VICTORY",
+};
 
 export const CharacterId = {
   MALE_CHARACTER: "MALE_CHARACTER",
   FEMALE_CHARACTER: "FEMALE_CHARACTER",
 };
 
-const animationConfig = {
+const animations = {
   [UnitAnimationId.IDLE]: FBXSkeletonAnimation.CHARACTERS_IDLE,
   [UnitAnimationId.AIMING_IDLE]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_AIMING_IDLE,
@@ -33,33 +39,51 @@ const animationConfig = {
     FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_LEFT,
   [UnitAnimationId.STRAFE_LEFT]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_RIGHT,
+  [CustomUnitAnimationId.CHARACTERS_VICTORY]:
+    FBXSkeletonAnimation.CHARACTERS_VICTORY,
 };
 
+const customCharacter = deepMerge(basicCharacter, {
+  model: {
+    fbx: {
+      id: FBXModelId.CHARACTERS,
+    },
+    scale: new THREE.Vector3(0.0095, 0.0095, 0.0095),
+    debug: {
+      showSockets: false,
+    },
+  },
+  animationConfig: [
+    {
+      condition: ({ userData }) => userData?.showVictoryAnimation,
+      animation: CustomUnitAnimationId.CHARACTERS_VICTORY,
+      transitionTime: 0.2,
+      loop: false,
+    },
+    ...basicCharacter.animationConfig,
+  ],
+  animations,
+});
+
 export const characterConfig = {
-  [CharacterId.MALE_CHARACTER]: patchObject(basicCharacter, {
+  [CharacterId.MALE_CHARACTER]: patchObject(customCharacter, {
     name: "male-character",
     model: {
-      fbxId: FBXModelId.CHARACTERS,
-      scale: new THREE.Vector3(0.01, 0.01, 0.01),
       traverseCallback: (child) => {
         if (child.isMesh && child.name.includes("Female")) {
           child.visible = false;
         }
       },
     },
-    animations: animationConfig,
   }),
-  [CharacterId.FEMALE_CHARACTER]: patchObject(basicCharacter, {
+  [CharacterId.FEMALE_CHARACTER]: patchObject(customCharacter, {
     name: "female-character",
     model: {
-      fbxId: FBXModelId.CHARACTERS,
-      scale: new THREE.Vector3(0.0095, 0.0095, 0.0095),
       traverseCallback: (child) => {
         if (child.isMesh && child.name.includes("Male")) {
           child.visible = false;
         }
       },
     },
-    animations: animationConfig,
   }),
 };
