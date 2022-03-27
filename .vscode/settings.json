@@ -1,3 +1,10 @@
 {
-  "cSpell.ignoreWords": ["GLTF", "Phong", "boilerplates", "newkrok", "octree"]
+  "cSpell.ignoreWords": [
+    "GLTF",
+    "Phong",
+    "boilerplates",
+    "cooldown",
+    "newkrok",
+    "octree"
+  ]
 }

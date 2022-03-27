@@ -22,21 +22,33 @@ export const FBXModelId = {
 export const FBXSkeletonAnimation = {
   CHARACTERS_IDLE: "CHARACTERS_IDLE",
   CHARACTERS_WALK: "CHARACTERS_WALK",
-  CHARACTERS_RIFLE_WALK_BACKWARDS: "CHARACTERS_RIFLE_WALK_BACKWARDS",
-  CHARACTERS_RIFLE_RUN_BACKWARDS: "CHARACTERS_RIFLE_RUN_BACKWARDS",
+  CHARACTERS_WALK_BACKWARDS: "CHARACTERS_WALK_BACKWARDS",
   CHARACTERS_RUN: "CHARACTERS_RUN",
-  CHARACTERS_RIFLE_AIMING_RUN: "CHARACTERS_RIFLE_AIMING_RUN",
+  CHARACTERS_RUN_BACKWARDS: "CHARACTERS_RUN_BACKWARDS",
   CHARACTERS_JUMP_LOOP: "CHARACTERS_JUMP_LOOP",
-  CHARACTERS_RIFLE_JUMP_LOOP: "CHARACTERS_RIFLE_JUMP_LOOP",
-  CHARACTERS_RIFLE_AIMING_IDLE: "CHARACTERS_RIFLE_AIMING_IDLE",
-  IDLE: "IDLE",
-  RIFLE_AIMING_IDLE: "RIFLE_AIMING_IDLE",
-  JUMP_LOOP: "JUMP_LOOP",
+  CHARACTERS_WALK_STRAFE_LEFT: "CHARACTERS_WALK_STRAFE_LEFT",
+  CHARACTERS_WALK_STRAFE_RIGHT: "CHARACTERS_WALK_STRAFE_RIGHT",
+  CHARACTERS_RUN_STRAFE_LEFT: "CHARACTERS_RUN_STRAFE_LEFT",
+  CHARACTERS_RUN_STRAFE_RIGHT: "CHARACTERS_RUN_STRAFE_RIGHT",
+
+  CHARACTERS_RIFLE_IDLE: "CHARACTERS_RIFLE_IDLE",
   CHARACTERS_RIFLE_WALK: "CHARACTERS_RIFLE_WALK",
-  RIFLE_AIMING_WALK: "RIFLE_AIMING_WALK",
-  RIFLE_WALK_BACKWARD: "RIFLE_WALK_BACKWARD",
+  CHARACTERS_RIFLE_WALK_BACKWARDS: "CHARACTERS_RIFLE_WALK_BACKWARDS",
+  CHARACTERS_RIFLE_RUN: "CHARACTERS_RIFLE_RUN",
+  CHARACTERS_RIFLE_RUN_BACKWARDS: "CHARACTERS_RIFLE_RUN_BACKWARDS",
+  CHARACTERS_RIFLE_JUMP_LOOP: "CHARACTERS_RIFLE_JUMP_LOOP",
   CHARACTERS_RIFLE_STRAFE_LEFT: "CHARACTERS_RIFLE_STRAFE_LEFT",
   CHARACTERS_RIFLE_STRAFE_RIGHT: "CHARACTERS_RIFLE_STRAFE_RIGHT",
+
+  CHARACTERS_PISTOL_IDLE: "CHARACTERS_PISTOL_IDLE",
+  CHARACTERS_PISTOL_WALK: "CHARACTERS_PISTOL_WALK",
+  CHARACTERS_PISTOL_WALK_BACKWARDS: "CHARACTERS_PISTOL_WALK_BACKWARDS",
+  CHARACTERS_PISTOL_RUN: "CHARACTERS_PISTOL_RUN",
+  CHARACTERS_PISTOL_RUN_BACKWARDS: "CHARACTERS_PISTOL_RUN_BACKWARDS",
+  //CHARACTERS_PISTOL_JUMP_LOOP: "CHARACTERS_PISTOL_JUMP_LOOP",
+  CHARACTERS_PISTOL_STRAFE_LEFT: "CHARACTERS_PISTOL_STRAFE_LEFT",
+  CHARACTERS_PISTOL_STRAFE_RIGHT: "CHARACTERS_PISTOL_STRAFE_RIGHT",
+
   CHARACTERS_VICTORY: "CHARACTERS_VICTORY",
 };
 
@@ -132,36 +144,61 @@ export const assetsConfig = {
       url: "./assets/models/characters/animations/walk.fbx",
     },
     {
-      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_WALK_BACKWARDS,
-      url: "./assets/models/characters/animations/rifle-walk-backwards.fbx",
-    },
-    {
-      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_RUN_BACKWARDS,
-      url: "./assets/models/characters/animations/rifle-run-backwards.fbx",
+      id: FBXSkeletonAnimation.CHARACTERS_WALK_BACKWARDS,
+      url: "./assets/models/characters/animations/walk-backwards.fbx",
     },
     {
       id: FBXSkeletonAnimation.CHARACTERS_RUN,
       url: "./assets/models/characters/animations/run.fbx",
     },
     {
-      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_AIMING_RUN,
-      url: "./assets/models/characters/animations/rifle-aiming-run.fbx",
+      id: FBXSkeletonAnimation.CHARACTERS_RUN_BACKWARDS,
+      url: "./assets/models/characters/animations/run-backwards.fbx",
     },
     {
       id: FBXSkeletonAnimation.CHARACTERS_JUMP_LOOP,
       url: "./assets/models/characters/animations/jump-loop.fbx",
     },
     {
-      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_JUMP_LOOP,
-      url: "./assets/models/characters/animations/rifle-jump-loop.fbx",
+      id: FBXSkeletonAnimation.CHARACTERS_WALK_STRAFE_LEFT,
+      url: "./assets/models/characters/animations/walk-strafe-left.fbx",
     },
     {
-      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_AIMING_IDLE,
-      url: "./assets/models/characters/animations/rifle-aiming-idle.fbx",
+      id: FBXSkeletonAnimation.CHARACTERS_WALK_STRAFE_RIGHT,
+      url: "./assets/models/characters/animations/walk-strafe-right.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RUN_STRAFE_LEFT,
+      url: "./assets/models/characters/animations/run-strafe-left.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RUN_STRAFE_RIGHT,
+      url: "./assets/models/characters/animations/run-strafe-right.fbx",
+    },
+
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_IDLE,
+      url: "./assets/models/characters/animations/rifle-idle.fbx",
     },
     {
       id: FBXSkeletonAnimation.CHARACTERS_RIFLE_WALK,
       url: "./assets/models/characters/animations/rifle-walk.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_WALK_BACKWARDS,
+      url: "./assets/models/characters/animations/rifle-walk-backwards.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_RUN,
+      url: "./assets/models/characters/animations/rifle-run.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_RUN_BACKWARDS,
+      url: "./assets/models/characters/animations/rifle-run-backwards.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_RIFLE_JUMP_LOOP,
+      url: "./assets/models/characters/animations/rifle-jump-loop.fbx",
     },
     {
       id: FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_LEFT,
@@ -171,6 +208,40 @@ export const assetsConfig = {
       id: FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_RIGHT,
       url: "./assets/models/characters/animations/rifle-strafe-right.fbx",
     },
+
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_IDLE,
+      url: "./assets/models/characters/animations/pistol-idle.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_WALK,
+      url: "./assets/models/characters/animations/pistol-walk.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_WALK_BACKWARDS,
+      url: "./assets/models/characters/animations/pistol-walk-backwards.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_RUN,
+      url: "./assets/models/characters/animations/pistol-run.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_RUN_BACKWARDS,
+      url: "./assets/models/characters/animations/pistol-run-backwards.fbx",
+    },
+    /* {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_JUMP_LOOP,
+      url: "./assets/models/characters/animations/pistol-jump-loop.fbx",
+    }, */
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_STRAFE_LEFT,
+      url: "./assets/models/characters/animations/pistol-strafe-left.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_PISTOL_STRAFE_RIGHT,
+      url: "./assets/models/characters/animations/pistol-strafe-right.fbx",
+    },
+
     {
       id: FBXSkeletonAnimation.CHARACTERS_VICTORY,
       url: "./assets/models/characters/animations/victory.fbx",

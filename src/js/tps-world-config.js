@@ -1,20 +1,23 @@
 import * as THREE from "three";
 
 import { GLTFModelId, TextureId } from "./assets-config";
+import { ToolId, toolConfig } from "./tool-config";
 import {
   UnitAction,
   onUnitAction,
 } from "@newkrok/three-tps/src/js/newkrok/three-tps/control/unit-action-manager.js";
+import {
+  UnitModuleId,
+  WorldModuleId,
+} from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 
-import { CharacterId } from "./unit-config";
-import { MODULE_ID } from "@newkrok/three-game/src/js/newkrok/three-game/modules/modules.js";
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
+import { UnitId } from "./unit-config";
 import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
-import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/octree/octree.js";
+import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/world/octree/octree-module.js";
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
-import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/projectiles/projectiles.js";
-import { toolConfig } from "./tool-config";
+import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/world/projectiles/projectiles-module.js";
 
 const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   renderer: {
@@ -53,10 +56,10 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
       TextureId.SKYBOX_6,
     ],
   },
-  characters: [
+  units: [
     ...Array.from({ length: 4 }).map((_, index) => ({
       id: "player-" + index,
-      characterId: CharacterId.FEMALE_CHARACTER,
+      unitId: UnitId.FEMALE_CHARACTER,
     })),
   ],
   staticModels: [
@@ -69,10 +72,10 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
       modelId: GLTFModelId.LEVEL_1_COLLISION,
     },
   ],
-  onLoaded: ({ getModule, getStaticModel, getCharacter, camera }) => {
+  onLoaded: ({ getModule, getStaticModel, getUnit, tpsCamera }) => {
     const collision = getStaticModel("level-1-collision").scene;
     collision.visible = false;
-    getModule(MODULE_ID.OCTREE).worldOctree.fromGraphNode(collision);
+    getModule(WorldModuleId.OCTREE).worldOctree.fromGraphNode(collision);
 
     const graphic = getStaticModel("level-1-graphic").scene;
 
@@ -106,17 +109,36 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
         return { ...tool, object };
       });
 
+    const chooseTool = (unit, id) => {
+      unit.chooseTool(id);
+      let leftHandOffset = new THREE.Vector3();
+      switch (id) {
+        case ToolId.WATER_GUN_01:
+          leftHandOffset.set(15, 28, 0);
+          break;
+        case ToolId.WATER_GUN_02:
+          leftHandOffset.set(15, 40, 0);
+          break;
+        case ToolId.WATER_PISTOL_01:
+          leftHandOffset.set(0, 0, 0);
+          break;
+        default:
+          break;
+      }
+      unit.getModule(UnitModuleId.AIMING).setLeftHandOffset(leftHandOffset);
+    };
+
     const initPlayer = (player, target) => {
-      const unit = getCharacter(({ id }) => id === player.unitId);
+      const unit = getUnit(({ id }) => id === player.unitId);
       if (target.name === "p0") {
-        camera.setTarget(unit.model);
-        camera.updateRotation({ x: target.rotation.z });
+        tpsCamera.setTarget(unit.model);
+        tpsCamera.updateRotation({ x: target.rotation.z });
         for (let i = 1; i < 5; i++) {
           onUnitAction({
             action: UnitAction[`CHOOSE_TOOL_${i}`],
             callback: () => {
               selectedToolId = i - 2;
-              unit.chooseTool(toolConfig[selectedToolId]?.id);
+              chooseTool(unit, toolConfig[selectedToolId]?.id);
             },
           });
         }
@@ -136,7 +158,7 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
           callback: () => {
             selectedToolId++;
             if (selectedToolId > toolConfig.length) selectedToolId = 0;
-            unit.chooseTool(toolConfig[selectedToolId]);
+            chooseTool(unit, toolConfig[selectedToolId]?.id);
           },
         });
         onUnitAction({
@@ -144,7 +166,7 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
           callback: () => {
             selectedToolId--;
             if (selectedToolId < -1) selectedToolId = toolConfig.length - 1;
-            unit.chooseTool(toolConfig[selectedToolId]);
+            chooseTool(unit, toolConfig[selectedToolId]?.id);
           },
         });
         // TODO: Temporary animation, preparation for the character selection
