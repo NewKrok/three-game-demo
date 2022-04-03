@@ -6,7 +6,7 @@ Demo game project for **@newkrok/three-tps** https://www.npmjs.com/package/@newk
 
 https://www.newkrok.com/three-tps-demo/index.html
 
-![image](https://user-images.githubusercontent.com/13141660/159388018-8e933581-14ef-4be5-952f-c5980317af5c.png)
+![image](https://user-images.githubusercontent.com/13141660/161452509-92385f79-bfb8-462a-aecf-759d68bc9fa8.png)
 
 # Assets
 
