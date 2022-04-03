@@ -2,18 +2,21 @@ import * as THREE from "three";
 
 import { FBXModelId, FBXSkeletonAnimation } from "./assets-config.js";
 import {
-  UnitAnimationId,
-  basicUnit,
-} from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/unit-boilerplates.js";
+  HumanoidUnitAnimationId,
+  humanoidUnit,
+} from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/humanoid-unit-boilerplates.js";
 import {
   deepMerge,
   patchObject,
 } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
-import { aimingModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/unit/aiming/aiming-module.js";
+import { abilitiesModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/abilities/abilities-module.js";
+import { abilityConfig } from "./ability-config.js";
+import { aimingModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/aiming/aiming-module.js";
 
 export const CustomUnitAnimationId = {
   CHARACTERS_VICTORY: "CHARACTERS_VICTORY",
+  CHARACTERS_DASH: "CHARACTERS_DASH",
 };
 
 export const UnitId = {
@@ -22,57 +25,65 @@ export const UnitId = {
 };
 
 const animations = {
-  [UnitAnimationId.IDLE]: FBXSkeletonAnimation.CHARACTERS_IDLE,
-  [UnitAnimationId.WALK]: FBXSkeletonAnimation.CHARACTERS_WALK,
-  [UnitAnimationId.WALK_BACKWARDS]:
+  [HumanoidUnitAnimationId.IDLE]: FBXSkeletonAnimation.CHARACTERS_IDLE,
+  [HumanoidUnitAnimationId.WALK]: FBXSkeletonAnimation.CHARACTERS_WALK,
+  [HumanoidUnitAnimationId.WALK_BACKWARDS]:
     FBXSkeletonAnimation.CHARACTERS_WALK_BACKWARDS,
-  [UnitAnimationId.RUN]: FBXSkeletonAnimation.CHARACTERS_RUN,
-  [UnitAnimationId.RUN_BACKWARDS]:
+  [HumanoidUnitAnimationId.RUN]: FBXSkeletonAnimation.CHARACTERS_RUN,
+  [HumanoidUnitAnimationId.RUN_BACKWARDS]:
     FBXSkeletonAnimation.CHARACTERS_RUN_BACKWARDS,
-  [UnitAnimationId.JUMP_LOOP]: FBXSkeletonAnimation.CHARACTERS_JUMP_LOOP,
-  [UnitAnimationId.WALK_STRAFE_LEFT]:
+  [HumanoidUnitAnimationId.JUMP_LOOP]:
+    FBXSkeletonAnimation.CHARACTERS_JUMP_LOOP,
+  [HumanoidUnitAnimationId.WALK_STRAFE_LEFT]:
     FBXSkeletonAnimation.CHARACTERS_WALK_STRAFE_LEFT,
-  [UnitAnimationId.WALK_STRAFE_RIGHT]:
+  [HumanoidUnitAnimationId.WALK_STRAFE_RIGHT]:
     FBXSkeletonAnimation.CHARACTERS_WALK_STRAFE_RIGHT,
-  [UnitAnimationId.RUN_STRAFE_LEFT]:
+  [HumanoidUnitAnimationId.RUN_STRAFE_LEFT]:
     FBXSkeletonAnimation.CHARACTERS_RUN_STRAFE_LEFT,
-  [UnitAnimationId.RUN_STRAFE_RIGHT]:
+  [HumanoidUnitAnimationId.RUN_STRAFE_RIGHT]:
     FBXSkeletonAnimation.CHARACTERS_RUN_STRAFE_RIGHT,
 
-  [UnitAnimationId.RIFLE_IDLE]: FBXSkeletonAnimation.CHARACTERS_RIFLE_IDLE,
-  [UnitAnimationId.RIFLE_WALK]: FBXSkeletonAnimation.CHARACTERS_RIFLE_WALK,
-  [UnitAnimationId.RIFLE_WALK_BACKWARDS]:
+  [HumanoidUnitAnimationId.RIFLE_IDLE]:
+    FBXSkeletonAnimation.CHARACTERS_RIFLE_IDLE,
+  [HumanoidUnitAnimationId.RIFLE_WALK]:
+    FBXSkeletonAnimation.CHARACTERS_RIFLE_WALK,
+  [HumanoidUnitAnimationId.RIFLE_WALK_BACKWARDS]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_WALK_BACKWARDS,
-  [UnitAnimationId.RIFLE_RUN]: FBXSkeletonAnimation.CHARACTERS_RIFLE_RUN,
-  [UnitAnimationId.RIFLE_RUN_BACKWARDS]:
+  [HumanoidUnitAnimationId.RIFLE_RUN]:
+    FBXSkeletonAnimation.CHARACTERS_RIFLE_RUN,
+  [HumanoidUnitAnimationId.RIFLE_RUN_BACKWARDS]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_RUN_BACKWARDS,
-  [UnitAnimationId.RIFLE_JUMP_LOOP]:
+  [HumanoidUnitAnimationId.RIFLE_JUMP_LOOP]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_JUMP_LOOP,
-  [UnitAnimationId.RIFLE_STRAFE_LEFT]:
+  [HumanoidUnitAnimationId.RIFLE_STRAFE_LEFT]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_LEFT,
-  [UnitAnimationId.RIFLE_STRAFE_RIGHT]:
+  [HumanoidUnitAnimationId.RIFLE_STRAFE_RIGHT]:
     FBXSkeletonAnimation.CHARACTERS_RIFLE_STRAFE_RIGHT,
 
-  [UnitAnimationId.PISTOL_IDLE]: FBXSkeletonAnimation.CHARACTERS_PISTOL_IDLE,
-  [UnitAnimationId.PISTOL_WALK]: FBXSkeletonAnimation.CHARACTERS_PISTOL_WALK,
-  [UnitAnimationId.PISTOL_WALK_BACKWARDS]:
+  [HumanoidUnitAnimationId.PISTOL_IDLE]:
+    FBXSkeletonAnimation.CHARACTERS_PISTOL_IDLE,
+  [HumanoidUnitAnimationId.PISTOL_WALK]:
+    FBXSkeletonAnimation.CHARACTERS_PISTOL_WALK,
+  [HumanoidUnitAnimationId.PISTOL_WALK_BACKWARDS]:
     FBXSkeletonAnimation.CHARACTERS_PISTOL_WALK_BACKWARDS,
-  [UnitAnimationId.PISTOL_RUN]: FBXSkeletonAnimation.CHARACTERS_PISTOL_RUN,
-  [UnitAnimationId.PISTOL_RUN_BACKWARDS]:
+  [HumanoidUnitAnimationId.PISTOL_RUN]:
+    FBXSkeletonAnimation.CHARACTERS_PISTOL_RUN,
+  [HumanoidUnitAnimationId.PISTOL_RUN_BACKWARDS]:
     FBXSkeletonAnimation.CHARACTERS_PISTOL_RUN_BACKWARDS,
-  /* [UnitAnimationId.PISTOL_JUMP_LOOP]:
+  /* [HumanoidUnitAnimationId.PISTOL_JUMP_LOOP]:
     FBXSkeletonAnimation.CHARACTERS_PISTOL_JUMP_LOOP, */
-  [UnitAnimationId.PISTOL_STRAFE_LEFT]:
+  [HumanoidUnitAnimationId.PISTOL_STRAFE_LEFT]:
     FBXSkeletonAnimation.CHARACTERS_PISTOL_STRAFE_LEFT,
-  [UnitAnimationId.PISTOL_STRAFE_RIGHT]:
+  [HumanoidUnitAnimationId.PISTOL_STRAFE_RIGHT]:
     FBXSkeletonAnimation.CHARACTERS_PISTOL_STRAFE_RIGHT,
 
   [CustomUnitAnimationId.CHARACTERS_VICTORY]:
     FBXSkeletonAnimation.CHARACTERS_VICTORY,
+  [CustomUnitAnimationId.CHARACTERS_DASH]: FBXSkeletonAnimation.CHARACTERS_DASH,
 };
 
-const customUnit = deepMerge(basicUnit, {
-  modules: [aimingModule],
+const customUnit = deepMerge(humanoidUnit, {
+  modules: [aimingModule, { ...abilitiesModule, config: abilityConfig }],
   model: {
     fbx: {
       id: FBXModelId.CHARACTERS,
@@ -90,7 +101,13 @@ const customUnit = deepMerge(basicUnit, {
         transitionTime: 0.2,
         loop: false,
       },
-      ...basicUnit.animationConfig.rules,
+      {
+        condition: ({ userData }) => userData?.isDashInProgress,
+        animation: CustomUnitAnimationId.CHARACTERS_DASH,
+        transitionTime: 0.2,
+        loop: false,
+      },
+      ...humanoidUnit.animationConfig.rules,
     ],
   },
   animations,

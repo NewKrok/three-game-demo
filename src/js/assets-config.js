@@ -50,6 +50,7 @@ export const FBXSkeletonAnimation = {
   CHARACTERS_PISTOL_STRAFE_RIGHT: "CHARACTERS_PISTOL_STRAFE_RIGHT",
 
   CHARACTERS_VICTORY: "CHARACTERS_VICTORY",
+  CHARACTERS_DASH: "CHARACTERS_DASH",
 };
 
 export const GLTFModelId = {
@@ -245,6 +246,10 @@ export const assetsConfig = {
     {
       id: FBXSkeletonAnimation.CHARACTERS_VICTORY,
       url: "./assets/models/characters/animations/victory.fbx",
+    },
+    {
+      id: FBXSkeletonAnimation.CHARACTERS_DASH,
+      url: "./assets/models/characters/animations/dash.fbx",
     },
   ],
   gltfModels: [

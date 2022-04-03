@@ -8,6 +8,7 @@ export const EffectId = {
   CRATE_EXPLOSION: "CRATE_EXPLOSION",
   CRATE_EXPLOSION_SMOKE: "CRATE_EXPLOSION_SMOKE",
   CRATE_EXPLOSION_FIRE: "CRATE_EXPLOSION_FIRE",
+  DASH: "DASH",
 };
 
 export const effectsConfig = {
@@ -404,5 +405,48 @@ export const effectsConfig = {
       terrain: { textureId: "WIREFRAME", movements: "DISABLED" },
     },
     map: TextureId.FIRE,
+  },
+  [EffectId.DASH]: {
+    transform: { position: { y: 0.8 }, rotation: { y: 180 } },
+    duration: 0.36,
+    looping: false,
+    startLifetime: { min: 0.01, max: 0.67 },
+    startSpeed: { min: 0, max: 0 },
+    simulationSpace: "WORLD",
+    maxParticles: 25,
+    emission: { rateOverTime: 100 },
+    shape: { shape: "RECTANGLE", rectangle: { scale: { x: 0.5, y: 1.8 } } },
+    renderer: { blending: "THREE.AdditiveBlending" },
+    startSize: { min: 0.2, max: 0.4 },
+    sizeOverLifetime: {
+      bezierPoints: [
+        { x: 0, y: 0, percentage: 0 },
+        { x: 1, y: 1, percentage: 1 },
+      ],
+    },
+    opacityOverLifetime: {
+      isActive: true,
+      bezierPoints: [
+        { x: 0, y: 1, percentage: 0 },
+        { x: 0.1666, y: 0.8333 },
+        { x: 0.3333, y: 0.6666 },
+        { x: 0.5, y: 0.5, percentage: 0.5 },
+        { x: 0.6666, y: 0.3332 },
+        { x: 0.8333, y: 0.1665 },
+        { x: 1, y: 0, percentage: 1 },
+      ],
+    },
+    _editorData: {
+      textureId: "POINT",
+      simulation: { movements: "DISABLED", movementSpeed: 1.3 },
+      showLocalAxes: false,
+      showWorldAxes: false,
+      terrain: {
+        textureId: "WIREFRAME",
+        movements: "DISABLED",
+        movementSpeed: 1,
+      },
+    },
+    map: TextureId.POINT,
   },
 };

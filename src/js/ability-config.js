@@ -1,31 +1,85 @@
-import { UnitAction } from "@newkrok/three-tps/src/js/newkrok/three-tps/control/unit-action-manager.js";
+import * as THREE from "three";
+
+import { EffectId, effectsConfig } from "./effects-config";
+import {
+  createParticleSystem,
+  destroyParticleSystem,
+} from "@newkrok/three-particles/src/js/effects/three-particles";
 
 export const AbilityId = {
   PISTOL_SHOOT: "PISTOL_SHOOT",
   RIFLE_SHOOT: "RIFLE_SHOOT",
   HEAVY_SHOOT: "HEAVY_SHOOT",
+  DASH: "DASH",
 };
 
-export const AbilityActivationType = {
-  ONCE: "ONCE",
-  REPEAT: "REPEAT",
-  CHARGE_ONCE: "CHARGE_ONCE",
+const shoot = ({ miss, count }, { world, caster }) => {
+  const selectedTool = caster.getSelectedTool();
+  const position = caster
+    .getRegisteredObject("projectileStart")
+    .object.getWorldPosition(new THREE.Vector3());
+  for (let i = 0; i < count; i++) {
+    const direction = selectedTool.object.getWorldDirection(
+      new THREE.Vector3()
+    );
+    direction.add(
+      new THREE.Vector3(
+        Math.random() * (miss * 2) - miss,
+        Math.random() * (miss * 2) - miss,
+        Math.random() * (miss * 2) - miss
+      )
+    );
+    selectedTool?.on?.activate({ world, position, direction });
+  }
 };
 
 export const abilityConfig = {
   [AbilityId.PISTOL_SHOOT]: {
-    type: AbilityActivationType.ONCE,
-    on: UnitAction.Attack,
+    isReactivationNeeded: true,
+    castingTime: 0,
     cooldownTime: 500,
+    on: {
+      cast: (props) => shoot({ miss: 0.01, count: 1 }, props),
+    },
   },
   [AbilityId.RIFLE_SHOOT]: {
-    type: AbilityActivationType.REPEAT,
-    on: UnitAction.Attack,
+    isReactivationNeeded: false,
+    castingTime: 0,
     cooldownTime: 200,
+    on: {
+      cast: (props) => shoot({ miss: 0.04, count: 1 }, props),
+    },
   },
   [AbilityId.HEAVY_SHOOT]: {
-    type: AbilityActivationType.CHARGE_ONCE,
-    on: UnitAction.Attack,
+    isReactivationNeeded: false,
+    castingTime: 500,
     cooldownTime: 1000,
+    on: {
+      cast: (props) => shoot({ miss: 0.02, count: 4 }, props),
+    },
+  },
+  [AbilityId.DASH]: {
+    isReactivationNeeded: true,
+    castingTime: 0,
+    cooldownTime: 2000,
+    on: {
+      cast: ({ caster }) => {
+        const dashSpeed = caster.onGround ? 50 : 25;
+        const direction = new THREE.Vector3();
+        caster.model.getWorldDirection(direction);
+        caster.velocity.copy(
+          direction.multiply(new THREE.Vector3(dashSpeed, 0, dashSpeed))
+        );
+        caster.userData.isDashInProgress = true;
+        setTimeout(() => (caster.userData.isDashInProgress = false), 400);
+
+        const dashEffect = createParticleSystem(effectsConfig[EffectId.DASH]);
+        const scaleConversion = 1 / caster.model.scale.x;
+        dashEffect.scale.set(scaleConversion, scaleConversion, scaleConversion);
+        dashEffect.position.y *= scaleConversion;
+        caster.model.add(dashEffect);
+        setTimeout(() => destroyParticleSystem(dashEffect), 1000);
+      },
+    },
   },
 };

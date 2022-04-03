@@ -15,9 +15,11 @@ import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/uni
 import { UnitId } from "./unit-config";
 import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
-import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/world/octree/octree-module.js";
+import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
-import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/modules/world/projectiles/projectiles-module.js";
+import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/projectiles/projectiles-module.js";
+import { unitControllerConfig } from "./unit-controller-config";
+import { unitControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/unit-controller/unit-controller-module.js";
 
 const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   renderer: {
@@ -59,7 +61,7 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
   units: [
     ...Array.from({ length: 4 }).map((_, index) => ({
       id: "player-" + index,
-      unitId: UnitId.FEMALE_CHARACTER,
+      unitId: UnitId.MALE_CHARACTER,
     })),
   ],
   staticModels: [
@@ -131,6 +133,10 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
     const initPlayer = (player, target) => {
       const unit = getUnit(({ id }) => id === player.unitId);
       if (target.name === "p0") {
+        unit.addModule({
+          ...unitControllerModule,
+          config: unitControllerConfig,
+        });
         tpsCamera.setTarget(unit.model);
         tpsCamera.updateRotation({ x: target.rotation.z });
         for (let i = 1; i < 5; i++) {

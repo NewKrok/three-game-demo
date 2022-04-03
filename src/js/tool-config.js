@@ -1,15 +1,15 @@
 import * as THREE from "three";
 
-import { AbilityId, abilityConfig } from "./ability-config.js";
 import { EffectId, effectsConfig } from "./effects-config.js";
 import {
   createParticleSystem,
   destroyParticleSystem,
 } from "@newkrok/three-particles/src/js/effects/three-particles";
 
+import { AbilityId } from "./ability-config.js";
 import { FBXModelId } from "./assets-config.js";
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
-import { ToolType } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/unit-boilerplates.js";
+import { ToolType } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/humanoid-unit-boilerplates.js";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { deepMerge } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
@@ -84,7 +84,7 @@ export const toolConfig = [
   deepMerge(defaultConfig, {
     id: ToolId.WATER_PISTOL_01,
     type: ToolType.PISTOL,
-    ability: abilityConfig[AbilityId.PISTOL_SHOOT],
+    ability: AbilityId.PISTOL_SHOOT,
     model: {
       fbx: {
         id: FBXModelId.WATER_PISTOL_01,
@@ -94,7 +94,7 @@ export const toolConfig = [
   deepMerge(defaultConfig, {
     id: ToolId.WATER_GUN_01,
     type: ToolType.RIFLE,
-    ability: abilityConfig[AbilityId.PISTOL_SHOOT],
+    ability: AbilityId.RIFLE_SHOOT,
     model: {
       fbx: {
         id: FBXModelId.WATER_GUN_01,
@@ -104,7 +104,7 @@ export const toolConfig = [
   deepMerge(defaultConfig, {
     id: ToolId.WATER_GUN_02,
     type: ToolType.RIFLE,
-    ability: abilityConfig[AbilityId.PISTOL_SHOOT],
+    ability: AbilityId.HEAVY_SHOOT,
     model: {
       fbx: {
         id: FBXModelId.WATER_GUN_02,
