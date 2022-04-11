@@ -111,6 +111,9 @@ const customUnit = deepMerge(humanoidUnit, {
     ],
   },
   animations,
+  speed: 25,
+  speedModifier: (unit) =>
+    (unit.onGround ? unit.config.speed : 8) * (unit.userData.useSprint ? 2 : 1),
 });
 
 export const unitConfig = {

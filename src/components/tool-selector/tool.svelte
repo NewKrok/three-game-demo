@@ -15,12 +15,9 @@
 
 <style lang="scss">
   .tool {
-    height: 5em;
-    display: flex;
-
     img {
       object-fit: contain;
-      height: 100%;
+      height: 3em;
     }
 
     .key {
