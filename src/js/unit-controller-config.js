@@ -1,5 +1,9 @@
 import * as THREE from "three";
 
+import {
+  TPSUnitActionId,
+  tpsUnitControllerConfig,
+} from "@newkrok/three-tps/src/js/newkrok/three-tps/boilerplates/tps-unit-controller-boilerplates.js";
 import { ToolId, toolConfig } from "./tool-config";
 
 import { AbilityId } from "./ability-config";
@@ -8,7 +12,11 @@ import { Key } from "@newkrok/three-game/src/js/newkrok/three-game/control/keybo
 import { Mouse } from "@newkrok/three-game/src/js/newkrok/three-game/control/mouse.js";
 import { UnitActionId } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/unit-controller-boilerplates.js";
 import { UnitModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
-import { tpsUnitControllerConfig } from "@newkrok/three-tps/src/js/newkrok/three-tps/boilerplates/tps-unit-controller-boilerplates.js";
+
+const TPSDemoUnitActionId = {
+  DASH: "DASH",
+  CHANGE_CAMERA_DISTANCE: "CHANGE_CAMERA_DISTANCE",
+};
 
 let crosshair = null;
 const getCrosshair = () => {
@@ -16,13 +24,20 @@ const getCrosshair = () => {
   return crosshair;
 };
 
-let selectedToolId = null;
-const chooseTool = (unit, id) => {
+const deactivateTool = (unit) => {
   const selectedTool = unit.getSelectedTool();
   if (selectedTool) {
     const abilitiesModule = unit.getModule(UnitModuleId.ABILITIES);
     abilitiesModule.deactivate(selectedTool.ability);
   }
+};
+
+let selectedCameraDistance = 0;
+export const cameraDistances = [3, 4, 2];
+
+let selectedToolId = null;
+const chooseTool = (unit, id) => {
+  deactivateTool(unit);
   unit.chooseTool(id);
   let leftHandOffset = new THREE.Vector3();
   switch (id) {
@@ -51,7 +66,7 @@ export const unitControllerConfig = {
       gamepadButtons: [ButtonKey.LeftAxisButton],
     },
     {
-      actionId: UnitActionId.DASH,
+      actionId: TPSDemoUnitActionId.DASH,
       keys: [Key.Q],
       gamepadButtons: [ButtonKey.ActionRight],
     },
@@ -75,6 +90,10 @@ export const unitControllerConfig = {
       actionId: UnitActionId[`CHOOSE_TOOL_${index + 1}`],
       keys: [Key[index + 1]],
     })),
+    {
+      actionId: TPSDemoUnitActionId.CHANGE_CAMERA_DISTANCE,
+      keys: [Key.C],
+    },
   ],
 
   handlers: [
@@ -86,18 +105,24 @@ export const unitControllerConfig = {
       },
     },
     {
-      actionId: UnitActionId.DASH,
+      actionId: TPSDemoUnitActionId.DASH,
       callback: ({ unit, value }) => {
         const abilitiesModule = unit.getModule(UnitModuleId.ABILITIES);
         if (value === 1) abilitiesModule.activate(AbilityId.DASH);
       },
     },
     {
-      actionId: UnitActionId.AIM,
+      actionId: TPSUnitActionId.AIM,
       callback: ({ unit, world }) => {
         getCrosshair().style.visibility = unit.userData.useAim
           ? "visible"
           : "hidden";
+        if (!unit.userData.useAim) {
+          world.tpsCamera.setMaxDistance(
+            world.userData.maxCameraDistance || cameraDistances[0]
+          );
+          deactivateTool(unit);
+        }
       },
     },
     {
@@ -131,9 +156,26 @@ export const unitControllerConfig = {
     ...Array.from({ length: 4 }).map((_, index) => ({
       actionId: UnitActionId[`CHOOSE_TOOL_${index + 1}`],
       callback: ({ unit }) => {
-        selectedToolId = index - 1;
-        chooseTool(unit, toolConfig[selectedToolId]?.id);
+        if (selectedToolId === index - 1) {
+          selectedToolId = null;
+          chooseTool(unit, selectedToolId);
+        } else {
+          selectedToolId = index - 1;
+          chooseTool(unit, toolConfig[selectedToolId]?.id);
+        }
       },
     })),
+    {
+      actionId: TPSDemoUnitActionId.CHANGE_CAMERA_DISTANCE,
+      callback: ({ world, unit }) => {
+        selectedCameraDistance++;
+        if (selectedCameraDistance === cameraDistances.length)
+          selectedCameraDistance = 0;
+        world.userData.maxCameraDistance =
+          cameraDistances[selectedCameraDistance];
+        if (!unit.userData.useAim)
+          world.tpsCamera.setMaxDistance(world.userData.maxCameraDistance);
+      },
+    },
   ],
 };

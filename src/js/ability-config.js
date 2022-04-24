@@ -64,7 +64,7 @@ export const abilityConfig = {
     cooldownTime: 2000,
     on: {
       cast: ({ caster }) => {
-        window.ability[AbilityId.DASH]();
+        window.tpsDemo.game.ability[AbilityId.DASH]();
         const dashSpeed = caster.onGround ? 50 : 25;
         const direction = new THREE.Vector3();
         caster.model.getWorldDirection(direction);

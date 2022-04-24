@@ -1,21 +1,28 @@
 import * as THREE from "three";
 
 import { GLTFModelId, TextureId } from "./assets-config";
+import {
+  cameraDistances,
+  unitControllerConfig,
+} from "./unit-controller-config";
 
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
 import { UnitId } from "./unit-config";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
-import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
+import { getTPSWorldConfig } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/projectiles/projectiles-module.js";
 import { toolConfig } from "./tool-config";
 import { tpsMovementModule } from "@newkrok/three-tps/src/js/newkrok/three-tps/unit/modules/tps-movements/tps-movements.js";
-import { unitControllerConfig } from "./unit-controller-config";
 import { unitControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/unit-controller/unit-controller-module.js";
 
-const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
+const TPSWorldConfig = patchObject(getTPSWorldConfig(), {
+  tpsCamera: {
+    yBoundaries: { min: 1.2, max: 2.7 },
+    maxDistance: cameraDistances[0],
+  },
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
   },
@@ -105,7 +112,7 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
       });
 
     const initPlayer = (player, target) => {
-      const unit = getUnit(({ id }) => id === player.unitId);
+      const unit = getUnit(player.unitId);
       if (target.name === "p0") {
         unit.addModules([
           {
@@ -115,9 +122,9 @@ const TPSWorldConfig = patchObject(getDefaultWorldConfig(), {
           tpsMovementModule,
         ]);
         tpsCamera.setTarget(unit.model);
+        tpsCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
         tpsCamera.updateRotation({ x: target.rotation.z });
         const projectileStartSocket = new THREE.Object3D();
-        // projectileStartSocket.add(new THREE.AxesHelper(20000));
         projectileStartSocket.position.y = 55;
         projectileStartSocket.position.x = 3;
         projectileStartSocket.position.z = -8;

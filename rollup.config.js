@@ -48,6 +48,7 @@ export default {
   },
   plugins: [
     replace({
+      preventAssignment: true,
       PACKAGE_VERSION: JSON.stringify(process.env.npm_package_version),
     }),
     svelte({

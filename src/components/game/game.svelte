@@ -1,7 +1,8 @@
 <script>
-  import ToolSelector from "./../tool-selector/tool-selector.svelte";
+  import ToolSelector from "./tool-selector/tool-selector.svelte";
   import { initThreeTPSDemo } from "../../js/three-tps-demo";
-  import AbilityList from "../ability-list/ability-list.svelte";
+  import AbilityList from "./ability-list/ability-list.svelte";
+  import Pause from "./pause/pause.svelte";
 
   window.onload = () => initThreeTPSDemo("#three-tps-demo");
 </script>
@@ -11,6 +12,7 @@
     <img alt="crosshair" src="assets/images/crosshair.png" class="crosshair" />
     <ToolSelector />
     <AbilityList />
+    <Pause />
   </div>
 </div>
 
