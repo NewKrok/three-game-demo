@@ -5,6 +5,7 @@
     "boilerplates",
     "cooldown",
     "newkrok",
-    "octree"
+    "octree",
+    "respawnTime"
   ]
 }

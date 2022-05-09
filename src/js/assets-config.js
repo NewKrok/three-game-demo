@@ -9,7 +9,7 @@ export const TextureId = {
   SKYBOX_6: "SKYBOX_6",
   SMOKE: "SMOKE",
   POINT: "POINT",
-  POLYGON_STARTER: "POLYGON_STARTER",
+  POLYGON_STARTER_01: "POLYGON_STARTER_01",
 };
 
 export const FBXModelId = {
@@ -56,6 +56,7 @@ export const FBXSkeletonAnimation = {
 export const GLTFModelId = {
   LEVEL_1_GRAPHIC: "LEVEL_1_GRAPHIC",
   LEVEL_1_COLLISION: "LEVEL_1_COLLISION",
+  COIN: "COIN",
 };
 
 export const AudioId = { GAME_BACKGROUND: "GAME_BACKGROUND" };
@@ -95,7 +96,7 @@ export const assetsConfig = {
       url: "./assets/textures/effects/point.webp",
     },
     {
-      id: TextureId.POLYGON_STARTER,
+      id: TextureId.POLYGON_STARTER_01,
       url: "./assets/textures/polygon-starter-texture-01.webp",
     },
   ],
@@ -112,7 +113,7 @@ export const assetsConfig = {
       url: "./assets/models/weapons/sm-wep-water-gun-01.fbx",
       material: {
         texture: {
-          id: TextureId.POLYGON_STARTER,
+          id: TextureId.POLYGON_STARTER_01,
         },
       },
     },
@@ -121,7 +122,7 @@ export const assetsConfig = {
       url: "./assets/models/weapons/sm-wep-water-gun-02.fbx",
       material: {
         texture: {
-          id: TextureId.POLYGON_STARTER,
+          id: TextureId.POLYGON_STARTER_01,
         },
       },
     },
@@ -130,7 +131,7 @@ export const assetsConfig = {
       url: "./assets/models/weapons/sm-wep-water-pistol-01.fbx",
       material: {
         texture: {
-          id: TextureId.POLYGON_STARTER,
+          id: TextureId.POLYGON_STARTER_01,
         },
       },
     },
@@ -260,6 +261,13 @@ export const assetsConfig = {
     {
       id: GLTFModelId.LEVEL_1_COLLISION,
       url: "./assets/models/world/level-1-collision.glb",
+    },
+    {
+      id: GLTFModelId.COIN,
+      url: "./assets/models/collectibles/sm-polygon-prototype-icon-coin-01.glb",
+      material: {
+        color: 0xfe1781,
+      },
     },
   ],
   audio: [
