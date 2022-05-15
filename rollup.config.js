@@ -47,6 +47,7 @@ export default {
     file: "public/build/bundle.js",
   },
   plugins: [
+    production && terser(),
     replace({
       preventAssignment: true,
       PACKAGE_VERSION: JSON.stringify(process.env.npm_package_version),
