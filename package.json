@@ -32,7 +32,8 @@
   "dependencies": {
     "@material/theme": "^13.0.0",
     "@newkrok/three-particles": "0.8.2",
-    "@newkrok/three-tps": "0.4.2",
+    "@newkrok/three-tps": "0.4.4",
+    "three": "0.140.0",
     "gsap": "3.10.4",
     "@smui/button": "6.0.0-beta.15",
     "@smui/card": "6.0.0-beta.15",

@@ -65,7 +65,7 @@ export const abilityConfig = {
     on: {
       cast: ({ caster }) => {
         window.tpsDemo.game.ability[AbilityId.DASH]();
-        const dashSpeed = caster.onGround ? 50 : 25;
+        const dashSpeed = caster.onGround ? 45 : 20;
         const direction = new THREE.Vector3();
         caster.model.getWorldDirection(direction);
         caster.velocity.copy(

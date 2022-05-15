@@ -1,14 +1,14 @@
 import * as THREE from "three";
 
-import { GLTFModelId, TextureId } from "../assets-config";
+import { GLTFModelId, TextureId, assetsConfig } from "./assets-config";
 import {
   cameraDistances,
   unitControllerConfig,
-} from "../unit-controller-config";
-import { collectiblesData, initCollectible } from "../collectibles";
+} from "./unit-controller-config";
+import { collectiblesData, initCollectible } from "./collectibles";
 
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
-import { UnitId } from "../unit-config";
+import { UnitId } from "./unit-config";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
 import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
@@ -18,11 +18,12 @@ import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/worl
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/projectiles/projectiles-module.js";
 import { staticParams } from "../static";
-import { toolConfig } from "../tool-config";
+import { toolConfig } from "./tool-config";
 import { tpsMovementModule } from "@newkrok/three-tps/src/js/newkrok/three-tps/unit/modules/tps-movements/tps-movements.js";
 import { unitControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/unit-controller/unit-controller-module.js";
 
 const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
+  assetsConfig: assetsConfig,
   tpsCamera: {
     yBoundaries: { min: 1.2, max: 2.7 },
     maxDistance: cameraDistances[0],
@@ -71,12 +72,12 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
   ],
   staticModels: [
     {
-      id: "level-1-graphic",
-      modelId: GLTFModelId.LEVEL_1_GRAPHIC,
+      id: "level-graphic",
+      modelId: GLTFModelId.LEVEL_GRAPHIC,
     },
     {
-      id: "level-1-collision",
-      modelId: GLTFModelId.LEVEL_1_COLLISION,
+      id: "level-collision",
+      modelId: GLTFModelId.LEVEL_COLLISION,
     },
   ],
   onProgress: (ratio) => {
@@ -91,11 +92,11 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
     on.pause(() => gsap.globalTimeline.pause());
     on.resume(() => gsap.globalTimeline.resume());
 
-    const collision = getStaticModel("level-1-collision").scene;
+    const collision = getStaticModel("level-collision").scene;
     collision.visible = false;
     getModule(WorldModuleId.OCTREE).worldOctree.fromGraphNode(collision);
 
-    const graphic = getStaticModel("level-1-graphic").scene;
+    const graphic = getStaticModel("level-graphic").scene;
 
     const playerData = Array.from({ length: 4 }).reduce(
       (prev, _, index) => ({
@@ -139,7 +140,7 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
         ]);
         tpsCamera.setTarget(unit.model);
         tpsCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
-        tpsCamera.updateRotation({ x: target.rotation.z });
+        tpsCamera.setRotation({ x: target.rotation.z, y: 2 });
         const projectileStartSocket = new THREE.Object3D();
         projectileStartSocket.position.y = 55;
         projectileStartSocket.position.x = 3;

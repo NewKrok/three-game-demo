@@ -1,4 +1,6 @@
 <script>
+  import { appState } from "./../../../store/app.js";
+  import { AppState } from "./../../../enums/app-state.js";
   import Dialog, { Title, Actions } from "@smui/dialog";
   import Button, { Label } from "@smui/button";
   import { Icon } from "@smui/icon-button";
@@ -23,6 +25,11 @@
     window.tpsDemo.game.world.resume();
     window.tpsDemo.game.world.renderer.domElement.requestPointerLock();
   };
+  const exitGame = () => {
+    close();
+    window.tpsDemo.game.world.dispose();
+    appState.set(AppState.MENU);
+  };
 </script>
 
 <Dialog
@@ -45,6 +52,10 @@
     <Label>Youtube</Label>
   </Button>
   <Actions>
+    <Button on:click={exitGame}>
+      <Icon class="material-icons">logout</Icon>
+      <Label>Exit</Label>
+    </Button>
     <Button on:click={close}>
       <Icon class="material-icons">play_circle_outline</Icon>
       <Label>Resume</Label>

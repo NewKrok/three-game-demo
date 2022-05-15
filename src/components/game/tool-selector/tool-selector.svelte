@@ -21,18 +21,6 @@
   ];
 </script>
 
-<div class="list">
-  {#each tools as tool (tool.name)}
-    <Tool {...tool} />
-  {/each}
-</div>
-
-<style lang="scss">
-  .list {
-    position: fixed;
-    left: 1em;
-    top: 1em;
-    display: flex;
-    gap: 0.5em;
-  }
-</style>
+{#each tools as tool (tool.name)}
+  <Tool {...tool} />
+{/each}

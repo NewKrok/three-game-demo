@@ -1,4 +1,4 @@
-import { TextureId } from "./assets-config";
+import { TextureId } from "./arena/assets-config";
 
 export const EffectId = {
   SHOOTING: "SHOOTING",
@@ -11,6 +11,8 @@ export const EffectId = {
   DASH: "DASH",
   ACTIVATE_COIN: "ACTIVATE_COIN",
   COLLECT_COIN: "COLLECT_COIN",
+  TELEPORT_POINT: "TELEPORT_POINT",
+  TELEPORT_ACTIVATE: "TELEPORT_ACTIVATE",
 };
 
 export const effectsConfig = {
@@ -571,6 +573,117 @@ export const effectsConfig = {
     },
     _editorData: {
       textureId: "POINT",
+      simulation: {
+        movements: "DISABLED",
+        movementSpeed: 1,
+        rotation: "DISABLED",
+        rotationSpeed: 1,
+      },
+      showLocalAxes: false,
+      showWorldAxes: false,
+      frustumCulled: true,
+      terrain: {
+        textureId: "WIREFRAME",
+        movements: "DISABLED",
+        movementSpeed: 1,
+        rotation: "DISABLED",
+        rotationSpeed: 1,
+      },
+    },
+    map: TextureId.POINT,
+  },
+  [EffectId.TELEPORT_POINT]: {
+    transform: { rotation: { x: -90 } },
+    duration: 1,
+    startLifetime: { min: 0.8, max: 0.8 },
+    startSpeed: { min: 0, max: 0 },
+    startSize: { min: 0.2 },
+    startColor: {
+      min: {
+        r: 0.9137254901960784,
+        g: 0.42745098039215684,
+        b: 0.027450980392156862,
+      },
+      max: { b: 0 },
+    },
+    gravity: -0.64,
+    maxParticles: 15,
+    emission: { rateOverTime: 20 },
+    shape: { shape: "CIRCLE", circle: { radius: 0.75, radiusThickness: 0 } },
+    velocityOverLifetime: {
+      isActive: true,
+      orbital: { y: { min: -1, max: 2 } },
+    },
+    sizeOverLifetime: {
+      bezierPoints: [
+        { x: 0, y: 0, percentage: 0 },
+        { x: 1, y: 1, percentage: 1 },
+      ],
+    },
+    opacityOverLifetime: {
+      bezierPoints: [
+        { x: 0, y: 0, percentage: 0 },
+        { x: 1, y: 1, percentage: 1 },
+      ],
+    },
+    _editorData: {
+      textureId: "POINT",
+      simulation: {
+        movements: "DISABLED",
+        movementSpeed: 1,
+        rotation: "DISABLED",
+        rotationSpeed: 1,
+      },
+      showLocalAxes: false,
+      showWorldAxes: false,
+      frustumCulled: true,
+      terrain: {
+        textureId: "WIREFRAME",
+        movements: "DISABLED",
+        movementSpeed: 1,
+        rotation: "DISABLED",
+        rotationSpeed: 1,
+      },
+    },
+    map: TextureId.POINT,
+  },
+  [EffectId.TELEPORT_ACTIVATE]: {
+    transform: { rotation: { x: -90 } },
+    duration: 1,
+    looping: false,
+    startLifetime: { min: 0.8, max: 0.8 },
+    startSpeed: { min: 0, max: 0 },
+    startSize: { min: 0.2 },
+    startColor: {
+      min: {
+        r: 0.9137254901960784,
+        g: 0.42745098039215684,
+        b: 0.027450980392156862,
+      },
+      max: { b: 0 },
+    },
+    gravity: -10,
+    maxParticles: 50,
+    emission: { rateOverTime: 80 },
+    shape: { shape: "CIRCLE", circle: { radius: 0.75, radiusThickness: 0 } },
+    velocityOverLifetime: {
+      isActive: true,
+      orbital: { x: { min: -1, max: 1 }, y: { min: -5, max: 2 } },
+    },
+    sizeOverLifetime: {
+      bezierPoints: [
+        { x: 0, y: 0, percentage: 0 },
+        { x: 1, y: 1, percentage: 1 },
+      ],
+    },
+    opacityOverLifetime: {
+      bezierPoints: [
+        { x: 0, y: 0, percentage: 0 },
+        { x: 1, y: 1, percentage: 1 },
+      ],
+    },
+    _editorData: {
+      textureId: "GRADIENT_POINT",
       simulation: {
         movements: "DISABLED",
         movementSpeed: 1,
