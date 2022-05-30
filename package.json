@@ -31,10 +31,10 @@
   },
   "dependencies": {
     "@material/theme": "^13.0.0",
-    "@newkrok/three-particles": "0.8.2",
-    "@newkrok/three-tps": "0.4.4",
-    "@newkrok/three-game": "0.6.1",
-    "@newkrok/three-utils": "0.2.0",
+    "@newkrok/three-particles": "^0.8.4",
+    "@newkrok/three-tps": "^0.5.1",
+    "@newkrok/three-game": "^0.7.0",
+    "@newkrok/three-utils": "^0.3.0",
     "@smui/button": "6.0.0-beta.15",
     "@smui/card": "6.0.0-beta.15",
     "@smui/dialog": "6.0.0-beta.15",
@@ -43,7 +43,7 @@
     "@smui/tab-bar": "6.0.0-beta.15",
     "@smui/textfield": "6.0.0-beta.15",
     "gsap": "3.10.4",
-    "three": "0.140.2"
+    "three": "^0.141.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "17.0.0",

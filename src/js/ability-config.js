@@ -63,7 +63,7 @@ export const abilityConfig = {
     castingTime: 0,
     cooldownTime: 2000,
     on: {
-      cast: ({ caster }) => {
+      cast: ({ world, caster }) => {
         window.tpsDemo.game.ability[AbilityId.DASH]();
         const dashSpeed = caster.onGround ? 45 : 20;
         const direction = new THREE.Vector3();
@@ -74,7 +74,10 @@ export const abilityConfig = {
         caster.userData.isDashInProgress = true;
         setTimeout(() => (caster.userData.isDashInProgress = false), 400);
 
-        const dashEffect = createParticleSystem(effectsConfig[EffectId.DASH]);
+        const dashEffect = createParticleSystem(
+          effectsConfig[EffectId.DASH],
+          world.cycleData.now
+        );
         const scaleConversion = 1 / caster.model.scale.x;
         dashEffect.scale.set(scaleConversion, scaleConversion, scaleConversion);
         dashEffect.position.y *= scaleConversion;

@@ -6,6 +6,7 @@
     "cooldown",
     "newkrok",
     "octree",
-    "respawnTime"
+    "respawnTime",
+    "verlet"
   ]
 }

@@ -1,14 +1,14 @@
 import * as THREE from "three";
 
 import { GLTFModelId, TextureId, assetsConfig } from "./assets-config";
+import { UnitId, unitConfig } from "./unit-config";
 import {
   cameraDistances,
-  unitControllerConfig,
-} from "./unit-controller-config";
+  playerControllerConfig,
+} from "./player-controller-config";
 import { collectiblesData, initCollectible } from "./collectibles";
 
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
-import { UnitId } from "./unit-config";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
 import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
@@ -16,14 +16,15 @@ import { getTPSWorldConfig } from "@newkrok/three-tps/src/js/newkrok/three-tps/t
 import gsap from "gsap";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
+import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/projectiles/projectiles-module.js";
 import { staticParams } from "../static";
 import { toolConfig } from "./tool-config";
 import { tpsMovementModule } from "@newkrok/three-tps/src/js/newkrok/three-tps/unit/modules/tps-movements/tps-movements.js";
-import { unitControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/unit-controller/unit-controller-module.js";
 
 const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
   assetsConfig: assetsConfig,
+  unitConfig: unitConfig,
   tpsCamera: {
     yBoundaries: { min: 1.2, max: 2.7 },
     maxDistance: cameraDistances[0],
@@ -53,7 +54,15 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
       directionalLight,
     ];
   },
-  modules: [octreeModule, projectilesModule, collectiblesModule],
+  modules: [
+    octreeModule,
+    projectilesModule,
+    collectiblesModule,
+    {
+      ...playerControllerModule,
+      config: playerControllerConfig,
+    },
+  ],
   skybox: {
     textures: [
       TextureId.SKYBOX_1,
@@ -131,13 +140,8 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
       target.visible = false;
       const unit = getUnit(player.unitId);
       if (target.name === "p0") {
-        unit.addModules([
-          {
-            ...unitControllerModule,
-            config: unitControllerConfig,
-          },
-          tpsMovementModule,
-        ]);
+        getModule(WorldModuleId.PLAYER_CONTROLLER).setTarget(unit);
+        unit.addModules([tpsMovementModule]);
         tpsCamera.setTarget(unit.model);
         tpsCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
         tpsCamera.setRotation({ x: target.rotation.z, y: 2 });

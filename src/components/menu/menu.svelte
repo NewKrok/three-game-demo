@@ -1,5 +1,5 @@
 <script>
-  import { demoData } from "./demo-config.js";
+  import { demoData } from "./demo-config.svelte";
   import Demo from "./demo.svelte";
 
   const version = PACKAGE_VERSION;

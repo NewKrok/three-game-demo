@@ -12,6 +12,7 @@ import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/uni
 import { ToolType } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/humanoid-unit-boilerplates.js";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { deepMerge } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
+import gsap from "gsap";
 
 const defaultConfig = {
   socketId: ModelSocketId.RIGHT_HAND,
@@ -31,34 +32,37 @@ const defaultConfig = {
           on: {
             shoot: ({ mesh }) => {
               const bulletEffect = createParticleSystem(
-                effectsConfig[EffectId.BULLET]
+                effectsConfig[EffectId.BULLET],
+                world.cycleData.now
               );
               bulletEffect.name = "bulletEffect";
               mesh.add(bulletEffect);
             },
             destroy: ({ mesh }) => {
-              setTimeout(
-                () =>
-                  destroyParticleSystem(
-                    mesh.children.find((child) => child.name === "bulletEffect")
-                  ),
-                100
+              gsap.delayedCall(0.1, () =>
+                destroyParticleSystem(
+                  mesh.children.find((child) => child.name === "bulletEffect")
+                )
               );
             },
             collision: ({ position }) => {
               const collisionEffect = createParticleSystem(
-                effectsConfig[EffectId.BULLET_EXPLOSION]
+                effectsConfig[EffectId.BULLET_EXPLOSION],
+                world.cycleData.now
               );
               collisionEffect.position.copy(position);
               world.scene.add(collisionEffect);
-              setTimeout(() => destroyParticleSystem(collisionEffect), 1500);
+              gsap.delayedCall(1.5, () =>
+                destroyParticleSystem(collisionEffect)
+              );
             },
           },
         },
       });
 
       const creationEffect = createParticleSystem(
-        effectsConfig[EffectId.SHOOTING]
+        effectsConfig[EffectId.SHOOTING],
+        world.cycleData.now
       );
       creationEffect.position.copy(position);
       var rotationMatrix = new THREE.Matrix4().lookAt(
@@ -69,7 +73,7 @@ const defaultConfig = {
       creationEffect.frustumCulled = false;
       creationEffect.quaternion.setFromRotationMatrix(rotationMatrix);
       world.scene.add(creationEffect);
-      setTimeout(() => destroyParticleSystem(creationEffect), 1000);
+      gsap.delayedCall(1, () => destroyParticleSystem(creationEffect));
     },
   },
 };

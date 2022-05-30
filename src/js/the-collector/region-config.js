@@ -6,6 +6,7 @@ import {
 
 import { TPSUnitModuleId } from "@newkrok/three-tps/src/js/newkrok/three-tps/modules/tps-module-enums.js";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
+import gsap from "gsap";
 import { staticParams } from "../static";
 
 const portalTargets = {
@@ -45,27 +46,27 @@ export const initRegion = (area) => {
 
         const spawn = spawns[lastSpawnPoint];
         const finishEffect = createParticleSystem(
-          effectsConfig[EffectId.TELEPORT_ACTIVATE]
+          effectsConfig[EffectId.TELEPORT_ACTIVATE],
+          staticParams.cycleData.now
         );
         finishEffect.position.copy(spawn.position);
         finishEffect.position.y -= 0.2;
         staticParams.world.scene.add(finishEffect);
 
-        setTimeout(() => {
-          destroyParticleSystem(finishEffect);
-        }, 2000);
+        gsap.delayedCall(2, () => destroyParticleSystem(finishEffect));
       });
     } else if (id.includes("portal")) {
       portals[id] = area;
       // TODO: Can I remove the timeout?
-      setTimeout(() => {
+      gsap.delayedCall(1, () => {
         const effect = createParticleSystem(
-          effectsConfig[EffectId.TELEPORT_POINT]
+          effectsConfig[EffectId.TELEPORT_POINT],
+          staticParams.cycleData.now
         );
         effect.position.copy(area.position);
         effect.position.y -= 0.2;
         staticParams.world.scene.add(effect);
-      }, 1000);
+      });
 
       region.on.enter(staticParams.playersUnit.box, () => {
         const tpsMovementModule = staticParams.playersUnit.getModule(
@@ -79,17 +80,18 @@ export const initRegion = (area) => {
         staticParams.playersUnit.teleportTo(portal.position);
 
         const effect = createParticleSystem(
-          effectsConfig[EffectId.TELEPORT_ACTIVATE]
+          effectsConfig[EffectId.TELEPORT_ACTIVATE],
+          staticParams.cycleData.now
         );
         effect.position.copy(portal.position);
         effect.position.y -= 0.2;
         staticParams.world.scene.add(effect);
 
-        setTimeout(() => {
+        gsap.delayedCall(1, () => {
           staticParams.playersUnit.model.visible = false;
-        }, 1000);
+        });
 
-        setTimeout(() => {
+        gsap.delayedCall(2, () => {
           destroyParticleSystem(effect);
           const target = portalTargets[id];
           lastSpawnPoint = target;
@@ -104,16 +106,15 @@ export const initRegion = (area) => {
           tpsMovementModule.resume();
 
           const finishEffect = createParticleSystem(
-            effectsConfig[EffectId.TELEPORT_ACTIVATE]
+            effectsConfig[EffectId.TELEPORT_ACTIVATE],
+            staticParams.cycleData.now
           );
           finishEffect.position.copy(spawn.position);
           finishEffect.position.y -= 0.2;
           staticParams.world.scene.add(finishEffect);
 
-          setTimeout(() => {
-            destroyParticleSystem(finishEffect);
-          }, 2000);
-        }, 2000);
+          gsap.delayedCall(2, () => destroyParticleSystem(finishEffect));
+        });
       });
     }
   }

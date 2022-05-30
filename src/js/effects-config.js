@@ -13,6 +13,7 @@ export const EffectId = {
   COLLECT_COIN: "COLLECT_COIN",
   TELEPORT_POINT: "TELEPORT_POINT",
   TELEPORT_ACTIVATE: "TELEPORT_ACTIVATE",
+  CAR_SMOG: "CAR_SMOG",
 };
 
 export const effectsConfig = {
@@ -702,5 +703,52 @@ export const effectsConfig = {
       },
     },
     map: TextureId.POINT,
+  },
+  [EffectId.CAR_SMOG]: {
+    duration: 0.36,
+    startLifetime: { min: 0.3, max: 0.6 },
+    startSpeed: { min: 0.5, max: 1.5 },
+    startSize: { min: 2, max: 3 },
+    gravity: -0.64,
+    maxParticles: 10,
+    emission: { rateOverTime: 30 },
+    shape: {
+      shape: "CONE",
+      cone: { angle: 16.8097, radius: 0.05 },
+    },
+    renderer: { blending: "THREE.NormalBlending" },
+    opacityOverLifetime: {
+      isActive: true,
+      bezierPoints: [
+        { x: 0, y: 1, percentage: 0 },
+        { x: 0.1666, y: 0.6333 },
+        { x: 0.3333, y: 0.4666 },
+        { x: 0.5, y: 0.3, percentage: 0.5 },
+        { x: 0.6666, y: 0.1332 },
+        { x: 0.8333, y: 0.0665 },
+        { x: 1, y: 0, percentage: 1 },
+      ],
+    },
+    noise: { isActive: true, strength: 0.1, positionAmount: 0.278 },
+    _editorData: {
+      textureId: "CLOUD",
+      simulation: {
+        movements: "CIRCLE",
+        movementSpeed: 3.9,
+        rotation: "FOLLOW_THE_MOVEMENT",
+        rotationSpeed: 0,
+      },
+      showLocalAxes: true,
+      showWorldAxes: false,
+      frustumCulled: true,
+      terrain: {
+        textureId: "WIREFRAME",
+        movements: "DISABLED",
+        movementSpeed: 1,
+        rotation: "DISABLED",
+        rotationSpeed: 1,
+      },
+    },
+    map: TextureId.SMOKE,
   },
 };

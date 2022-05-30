@@ -5,7 +5,7 @@
 import { createTPSWorld } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
 import { effectsConfig } from "./effects-config";
 import { getTexture } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
-import { unitConfig } from "./arena/unit-config";
+import { staticParams } from "./static";
 import { updateParticleSystems } from "@newkrok/three-particles/src/js/effects/three-particles";
 
 window.tpsDemo = {
@@ -16,8 +16,9 @@ window.tpsDemo = {
   },
 };
 
-/* const stats = Stats();
-document.body.appendChild(stats.dom); */
+// TODO: make it switchable
+/*const stats = Stats();
+document.body.appendChild(stats.dom);*/
 
 const initCallbacks = [];
 window.tpsDemo.on.init = (callback) => initCallbacks.push(callback);
@@ -29,12 +30,9 @@ export const initThreeTPSDemo = (targetQuery, worldConfig) => {
 
   createTPSWorld({
     target,
-    unitConfig,
     worldConfig,
   })
     .then((world) => {
-      const { onUpdate } = world;
-
       /* document.onclick = () => {
         document.onclick = null;
         playAudio({
@@ -54,8 +52,10 @@ export const initThreeTPSDemo = (targetQuery, worldConfig) => {
         target.onclick = null;
       };
 
-      onUpdate((cycleData) => {
-        updateParticleSystems(cycleData);
+      world.on.update((cycleData) => {
+        if (!cycleData.isPaused) updateParticleSystems(cycleData);
+        staticParams.cycleData = { ...cycleData };
+
         //stats.update();
       });
     })

@@ -29,11 +29,12 @@ export const collectiblesData = Array.from({ length: 6 }).reduce(
       on: {
         activate: ({ model }) => {
           const effect = createParticleSystem(
-            effectsConfig[EffectId.ACTIVATE_COIN]
+            effectsConfig[EffectId.ACTIVATE_COIN],
+            staticParams.cycleData.now
           );
           effect.position.copy(model.position);
           staticParams.world.scene.add(effect);
-          setTimeout(() => destroyParticleSystem(effect), 1000);
+          gsap.delayedCall(1, () => destroyParticleSystem(effect));
           model.scale.set(0, 0, 0);
           gsap.to(model.scale, {
             x: 1,
@@ -44,11 +45,12 @@ export const collectiblesData = Array.from({ length: 6 }).reduce(
         },
         collect: ({ collectible: { model } }) => {
           const effect = createParticleSystem(
-            effectsConfig[EffectId.COLLECT_COIN]
+            effectsConfig[EffectId.COLLECT_COIN],
+            staticParams.cycleData.now
           );
           effect.position.copy(model.position);
           staticParams.world.scene.add(effect);
-          setTimeout(() => destroyParticleSystem(effect), 1000);
+          gsap.delayedCall(1, () => destroyParticleSystem(effect));
         },
       },
     },

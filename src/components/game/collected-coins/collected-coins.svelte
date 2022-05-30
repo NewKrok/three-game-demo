@@ -1,5 +1,4 @@
 <script>
-  import { get } from "svelte/store";
   import {
     availableCollectableCount,
     collectedCollectableCount,
