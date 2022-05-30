@@ -22,6 +22,8 @@ https://youtu.be/SgFM573ADhI
 **Used assets are free assets from unity asset store**
 - Environment, character and weapons https://assetstore.unity.com/packages/3d/props/polygon-starter-pack-low-poly-3d-art-by-synty-156819
 - Skybox https://assetstore.unity.com/packages/2d/textures-materials/sky/colorskies-91541
+- Track Roads https://assetstore.unity.com/packages/3d/environments/roadways/modular-lowpoly-track-roads-free-205188#description
+- Car https://assetstore.unity.com/packages/3d/vehicles/land/arcade-free-racing-car-161085#description
 
 # Animations
 
