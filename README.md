@@ -10,9 +10,12 @@ https://www.newkrok.com/three-tps-demo/index.html
 https://youtu.be/SgFM573ADhI
 
 # Screenshots
-![image](https://user-images.githubusercontent.com/13141660/161452509-92385f79-bfb8-462a-aecf-759d68bc9fa8.png)
-![image](https://user-images.githubusercontent.com/13141660/167514511-97f4472a-fbd2-4dfd-8574-84ee0ba8a2a9.png)
-![image](https://user-images.githubusercontent.com/13141660/168452896-f8af43a7-2e3f-47fd-b412-11a41fee97c9.png)
+<img src="https://user-images.githubusercontent.com/13141660/161452509-92385f79-bfb8-462a-aecf-759d68bc9fa8.png" width="40%"></img>
+<img src="https://user-images.githubusercontent.com/13141660/167514511-97f4472a-fbd2-4dfd-8574-84ee0ba8a2a9.png" width="40%"></img>
+<img src="https://user-images.githubusercontent.com/13141660/168452843-c8547d3f-d062-47c3-addc-ba7862d78c69.png" width="40%"></img>
+<img src="https://user-images.githubusercontent.com/13141660/168452896-f8af43a7-2e3f-47fd-b412-11a41fee97c9.png" width="40%"></img>
+<img src="https://user-images.githubusercontent.com/13141660/171064238-a584af62-44ea-40d1-a72e-48abc300d347.png" width="40%"></img>
+<img src="https://user-images.githubusercontent.com/13141660/171064339-e2752a10-0fc9-44a0-b616-ccae0fe71562.png" width="40%"></img>
 
 # Assets
 
