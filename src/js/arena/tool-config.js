@@ -27,7 +27,7 @@ const defaultConfig = {
         direction,
         scene: world.scene,
         config: {
-          speed: 0.5,
+          speed: 40,
           lifeTime: 5000,
           on: {
             shoot: ({ mesh }) => {

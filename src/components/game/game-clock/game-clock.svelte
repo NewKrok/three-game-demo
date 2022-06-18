@@ -11,7 +11,7 @@
 
   onMount(() => {
     const interval = setInterval(() => {
-      elapsed = staticParams.cycleData?.elapsed * 1000 || 0;
+      elapsed = staticParams.cycleData?.elapsed || 0;
     }, 1000);
 
     return () => {

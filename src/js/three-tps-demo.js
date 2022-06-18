@@ -2,7 +2,7 @@
 
 //import Stats from "three/examples/jsm/libs/stats.module.js";
 
-import { createTPSWorld } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
+import { createWorld } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import { effectsConfig } from "./effects-config";
 import { getTexture } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 import { staticParams } from "./static";
@@ -17,8 +17,8 @@ window.tpsDemo = {
 };
 
 // TODO: make it switchable
-/*const stats = Stats();
-document.body.appendChild(stats.dom);*/
+//const stats = Stats();
+//document.body.appendChild(stats.dom);
 
 const initCallbacks = [];
 window.tpsDemo.on.init = (callback) => initCallbacks.push(callback);
@@ -28,7 +28,7 @@ export const initThreeTPSDemo = (targetQuery, worldConfig) => {
   const crosshair = target.querySelector(".crosshair");
   crosshair.style.visibility = "hidden";
 
-  createTPSWorld({
+  createWorld({
     target,
     worldConfig,
   })

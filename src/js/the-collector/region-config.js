@@ -1,11 +1,13 @@
 import { EffectId, effectsConfig } from "../effects-config";
 import {
+  UnitModuleId,
+  WorldModuleId,
+} from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
+import {
   createParticleSystem,
   destroyParticleSystem,
 } from "@newkrok/three-particles/src/js/effects/three-particles";
 
-import { TPSUnitModuleId } from "@newkrok/three-tps/src/js/newkrok/three-tps/modules/tps-module-enums.js";
-import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import gsap from "gsap";
 import { staticParams } from "../static";
 
@@ -39,7 +41,7 @@ export const initRegion = (area) => {
           Math.PI - spawns[lastSpawnPoint].rotation.y
         );
         clearVelocity(staticParams.playersUnit);
-        staticParams.world.tpsCamera.setRotation({
+        staticParams.world.userData.tpsCamera.setRotation({
           x: Math.PI - spawns[lastSpawnPoint].rotation.y,
           y: 2,
         });
@@ -70,7 +72,7 @@ export const initRegion = (area) => {
 
       region.on.enter(staticParams.playersUnit.box, () => {
         const tpsMovementModule = staticParams.playersUnit.getModule(
-          TPSUnitModuleId.TPS_MOVEMENT
+          UnitModuleId.TPS_MOVEMENT
         );
         tpsMovementModule.pause();
         clearVelocity(staticParams.playersUnit);
@@ -99,7 +101,7 @@ export const initRegion = (area) => {
           staticParams.playersUnit.model.visible = true;
           staticParams.playersUnit.teleportTo(spawn.position);
           staticParams.playersUnit.setRotation(Math.PI - spawn.rotation.y);
-          staticParams.world.tpsCamera.setRotation({
+          staticParams.world.userData.tpsCamera.setRotation({
             x: Math.PI - spawn.rotation.y,
             y: 2,
           });

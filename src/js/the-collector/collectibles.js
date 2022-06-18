@@ -57,7 +57,7 @@ export const collectiblesData = {
 };
 
 export const initCollectible = (collectible, target) => {
-  const module = staticParams.world.getModule(WorldModuleId.COLLECTIBLE);
+  const module = staticParams.world.getModule(WorldModuleId.COLLECTIBLES);
   const { model } = module.addCollectible({
     ...collectible,
     collisionObject: target,

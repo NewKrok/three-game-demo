@@ -42,7 +42,7 @@
 
   onMount(() => {
     const interval = setInterval(() => {
-      if (!staticParams.cycleData.isPaused) now = new Date();
+      if (!staticParams.cycleData.isPaused) now = staticParams.cycleData.now;
     }, 30);
 
     return () => {
@@ -60,9 +60,7 @@
           <div class="entryContent">
             <div class="currentTime">
               {formatTime(
-                startTime
-                  ? now - startTime - staticParams.cycleData.totalPauseTime
-                  : currentTime,
+                startTime ? now - startTime : currentTime,
                 TimePattern.MM_SS_MS
               )}
             </div>

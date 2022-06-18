@@ -11,24 +11,21 @@ import { collectiblesData, initCollectible } from "./collectibles";
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
+import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
-import { getTPSWorldConfig } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
 import gsap from "gsap";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
 import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/projectiles/projectiles-module.js";
 import { staticParams } from "../static";
+import { thirdPersonCameraModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/third-person-camera/third-person-camera-module.js";
 import { toolConfig } from "./tool-config";
-import { tpsMovementModule } from "@newkrok/three-tps/src/js/newkrok/three-tps/unit/modules/tps-movements/tps-movements.js";
+import { tpsMovementModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/tps-movements/tps-movements.js";
+import { unitsModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/units-module.js";
 
-const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
+const ArenaWorldConfig = patchObject(getDefaultWorldConfig(), {
   assetsConfig: assetsConfig,
-  unitConfig: unitConfig,
-  tpsCamera: {
-    yBoundaries: { min: 1.2, max: 2.7 },
-    maxDistance: cameraDistances[0],
-  },
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
   },
@@ -55,6 +52,13 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
     ];
   },
   modules: [
+    unitsModule,
+    patchObject(thirdPersonCameraModule, {
+      config: {
+        yBoundaries: { min: 1.2, max: 2.7 },
+        maxDistance: cameraDistances[0],
+      },
+    }),
     octreeModule,
     projectilesModule,
     collectiblesModule,
@@ -73,12 +77,6 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
       TextureId.SKYBOX_6,
     ],
   },
-  units: [
-    ...Array.from({ length: 4 }).map((_, index) => ({
-      id: "player-" + index,
-      unitId: UnitId.MALE_CHARACTER,
-    })),
-  ],
   staticModels: [
     {
       id: "level-graphic",
@@ -96,16 +94,30 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
     );
   },
   onLoaded: (world) => {
-    const { on, getModule, getStaticModel, getUnit, tpsCamera } = world;
+    const { on, getModule, getStaticModel } = world;
     staticParams.world = world;
     on.pause(() => gsap.globalTimeline.pause());
     on.resume(() => gsap.globalTimeline.resume());
 
+    const { createUnit, getUnit } = getModule(WorldModuleId.UNITS);
+    for (let i = 0; i < 4; i++) {
+      createUnit({
+        id: `player-${i}`,
+        config: unitConfig[UnitId.MALE_CHARACTER],
+      });
+    }
+
     const collision = getStaticModel("level-collision").scene;
     collision.visible = false;
-    getModule(WorldModuleId.OCTREE).worldOctree.fromGraphNode(collision);
+    const worldOctree = getModule(WorldModuleId.OCTREE).worldOctree;
+    worldOctree.fromGraphNode(collision);
 
     const graphic = getStaticModel("level-graphic").scene;
+
+    const thirdPersonCamera = getModule(WorldModuleId.THIRD_PERSON_CAMERA);
+    world.setCamera(thirdPersonCamera.instance);
+    world.userData.tpsCamera = thirdPersonCamera;
+    thirdPersonCamera.setWorldOctree(worldOctree);
 
     const playerData = Array.from({ length: 4 }).reduce(
       (prev, _, index) => ({
@@ -142,9 +154,7 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
       if (target.name === "p0") {
         getModule(WorldModuleId.PLAYER_CONTROLLER).setTarget(unit);
         unit.addModules([tpsMovementModule]);
-        tpsCamera.setTarget(unit.model);
-        tpsCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
-        tpsCamera.setRotation({ x: target.rotation.z, y: 2 });
+
         const projectileStartSocket = new THREE.Object3D();
         projectileStartSocket.position.y = 55;
         projectileStartSocket.position.x = 3;
@@ -168,6 +178,12 @@ const ArenaWorldConfig = patchObject(getTPSWorldConfig(), {
             }
           },
         });*/
+
+        thirdPersonCamera.setTarget(unit.model);
+        thirdPersonCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
+        thirdPersonCamera.setRotation({ x: target.rotation.z, y: 2 });
+
+        world.getModule(WorldModuleId.COLLECTIBLES).addCollector(unit);
       }
       applySkin(unit.model, player.color);
       unit.registerTools(createTools());

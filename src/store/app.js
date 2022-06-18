@@ -8,3 +8,4 @@ export const collectedCollectableCount = writable(0);
 export const checkpointEntries = writable([]);
 export const carSpeed = writable(0);
 export const lapsCount = writable(0);
+export const leaderBoard = writable([]);

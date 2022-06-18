@@ -7,7 +7,7 @@
 
 <div class="wrapper">
   <div class="frame">
-    THREE TPS Demo Projects
+    THREE Game Demo Projects
     <div>version: {version}</div>
   </div>
   <div class="content">
@@ -21,11 +21,8 @@
 <style lang="scss">
   .wrapper {
     width: 100%;
-    height: 100%;
-    position: fixed;
+    min-height: 100%;
     background: #222;
-    top: 0;
-    left: 0;
     display: flex;
     flex-direction: column;
 
@@ -33,7 +30,7 @@
       flex: 1;
       display: flex;
       justify-content: center;
-      align-items: center;
+      flex-wrap: wrap;
     }
 
     .frame {

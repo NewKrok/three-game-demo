@@ -3,7 +3,7 @@ import * as THREE from "three";
 import {
   TPSPlayerActionId,
   tpsUnitControllerConfig,
-} from "@newkrok/three-tps/src/js/newkrok/three-tps/boilerplates/tps-player-controller-boilerplates.js";
+} from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/tps-player-controller-boilerplates.js";
 import { ToolId, toolConfig } from "./tool-config";
 
 import { AbilityId } from "../ability-config";
@@ -13,7 +13,7 @@ import { Mouse } from "@newkrok/three-game/src/js/newkrok/three-game/control/mou
 import { PlayerActionId } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/player-controller-boilerplates.js";
 import { UnitModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 
-const TPSDemoPlayerActionId = {
+const CustomPlayerActionId = {
   DASH: "DASH",
   CHANGE_CAMERA_DISTANCE: "CHANGE_CAMERA_DISTANCE",
 };
@@ -66,7 +66,7 @@ export const playerControllerConfig = {
       gamepadButtons: [ButtonKey.LeftAxisButton],
     },
     {
-      actionId: TPSDemoPlayerActionId.DASH,
+      actionId: CustomPlayerActionId.DASH,
       keys: [Key.Q],
       gamepadButtons: [ButtonKey.ActionRight],
     },
@@ -91,7 +91,7 @@ export const playerControllerConfig = {
       keys: [Key[index + 1]],
     })),
     {
-      actionId: TPSDemoPlayerActionId.CHANGE_CAMERA_DISTANCE,
+      actionId: CustomPlayerActionId.CHANGE_CAMERA_DISTANCE,
       keys: [Key.C],
     },
   ],
@@ -105,7 +105,7 @@ export const playerControllerConfig = {
       },
     },
     {
-      actionId: TPSDemoPlayerActionId.DASH,
+      actionId: CustomPlayerActionId.DASH,
       callback: ({ target, value }) => {
         const abilitiesModule = target.getModule(UnitModuleId.ABILITIES);
         if (value === 1) abilitiesModule.activate(AbilityId.DASH);
@@ -117,8 +117,8 @@ export const playerControllerConfig = {
         getCrosshair().style.visibility = target.userData.useAim
           ? "visible"
           : "hidden";
-        if (!target.userData.useAim) {
-          world.tpsCamera.setMaxDistance(
+        if (!target.userData.useAim && world.userData.tpsCamera) {
+          world.userData.tpsCamera.setMaxDistance(
             world.userData.maxCameraDistance || cameraDistances[0]
           );
           deactivateTool(target);
@@ -166,15 +166,17 @@ export const playerControllerConfig = {
       },
     })),
     {
-      actionId: TPSDemoPlayerActionId.CHANGE_CAMERA_DISTANCE,
+      actionId: CustomPlayerActionId.CHANGE_CAMERA_DISTANCE,
       callback: ({ world, target }) => {
         selectedCameraDistance++;
         if (selectedCameraDistance === cameraDistances.length)
           selectedCameraDistance = 0;
         world.userData.maxCameraDistance =
           cameraDistances[selectedCameraDistance];
-        if (!target.userData.useAim)
-          world.tpsCamera.setMaxDistance(world.userData.maxCameraDistance);
+        if (!target.userData.useAim && world.userData.tpsCamera)
+          world.userData.tpsCamera.setMaxDistance(
+            world.userData.maxCameraDistance
+          );
       },
     },
   ],

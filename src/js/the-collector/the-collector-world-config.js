@@ -8,11 +8,10 @@ import {
 } from "./player-controller-config";
 import { collectiblesData, initCollectible } from "./collectibles";
 
-import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { availableCollectableCount } from "../../store/app";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
-import { getTPSWorldConfig } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
+import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import gsap from "gsap";
 import { initRegion } from "./region-config";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
@@ -20,15 +19,12 @@ import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/obj
 import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { regionModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/region/region-module.js";
 import { staticParams } from "../static";
-import { tpsMovementModule } from "@newkrok/three-tps/src/js/newkrok/three-tps/unit/modules/tps-movements/tps-movements.js";
+import { thirdPersonCameraModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/third-person-camera/third-person-camera-module.js";
+import { tpsMovementModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/tps-movements/tps-movements.js";
+import { unitsModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/units-module.js";
 
-const TheCollectorWorldConfig = patchObject(getTPSWorldConfig(), {
+const TheCollectorWorldConfig = patchObject(getDefaultWorldConfig(), {
   assetsConfig: assetsConfig,
-  unitConfig: unitConfig,
-  tpsCamera: {
-    yBoundaries: { min: 1.2, max: 2.7 },
-    maxDistance: cameraDistances[0],
-  },
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
   },
@@ -55,6 +51,13 @@ const TheCollectorWorldConfig = patchObject(getTPSWorldConfig(), {
     ];
   },
   modules: [
+    unitsModule,
+    patchObject(thirdPersonCameraModule, {
+      config: {
+        yBoundaries: { min: 1.2, max: 2.7 },
+        maxDistance: cameraDistances[0],
+      },
+    }),
     octreeModule,
     { ...regionModule, config: { debug: false } },
     collectiblesModule,
@@ -73,12 +76,6 @@ const TheCollectorWorldConfig = patchObject(getTPSWorldConfig(), {
       TextureId.SKYBOX_6,
     ],
   },
-  units: [
-    ...Array.from({ length: 1 }).map((_, index) => ({
-      id: `unit-0${index + 1}`,
-      unitId: UnitId.MALE_CHARACTER,
-    })),
-  ],
   staticModels: [
     {
       id: "level-graphic",
@@ -96,22 +93,33 @@ const TheCollectorWorldConfig = patchObject(getTPSWorldConfig(), {
     );
   },
   onLoaded: (world) => {
-    const { on, getModule, getStaticModel, getUnit, tpsCamera } = world;
+    const { on, getModule, getStaticModel } = world;
     staticParams.world = world;
     on.pause(() => gsap.globalTimeline.pause());
     on.resume(() => gsap.globalTimeline.resume());
 
+    const { createUnit, getUnit } = getModule(WorldModuleId.UNITS);
+    createUnit({
+      id: "unit-01",
+      config: unitConfig[UnitId.MALE_CHARACTER],
+    });
+    staticParams.playersUnit = getUnit("unit-01");
+
     const collision = getStaticModel("level-collision").scene;
     collision.visible = false;
-    getModule(WorldModuleId.OCTREE).worldOctree.fromGraphNode(collision);
+    const worldOctree = getModule(WorldModuleId.OCTREE).worldOctree;
+    worldOctree.fromGraphNode(collision);
 
     const graphic = getStaticModel("level-graphic").scene;
+
+    const thirdPersonCamera = getModule(WorldModuleId.THIRD_PERSON_CAMERA);
+    world.setCamera(thirdPersonCamera.instance);
+    world.userData.tpsCamera = thirdPersonCamera;
+    thirdPersonCamera.setWorldOctree(worldOctree);
 
     const playerData = {
       color: 0x00ff00,
     };
-
-    staticParams.playersUnit = getUnit("unit-01");
 
     const applySkin = (model, color) => {
       model.traverse((child) => {
@@ -127,22 +135,16 @@ const TheCollectorWorldConfig = patchObject(getTPSWorldConfig(), {
       const unit = staticParams.playersUnit;
       getModule(WorldModuleId.PLAYER_CONTROLLER).setTarget(unit);
       unit.addModules([tpsMovementModule]);
-      tpsCamera.setTarget(unit.model);
-      tpsCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
-      tpsCamera.setRotation({ x: target.rotation.y, y: 2 });
-      const projectileStartSocket = new THREE.Object3D();
-      projectileStartSocket.position.y = 55;
-      projectileStartSocket.position.x = 3;
-      projectileStartSocket.position.z = -8;
-      unit.registerObjectIntoSocket({
-        id: "projectileStart",
-        object: projectileStartSocket,
-        socketId: ModelSocketId.RIGHT_HAND,
-      });
-      projectileStartSocket.visible = true;
+
       applySkin(unit.model, player.color);
       unit.teleportTo(target.position);
       unit.setRotation(target.rotation.y);
+
+      thirdPersonCamera.setTarget(unit.model);
+      thirdPersonCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
+      thirdPersonCamera.setRotation({ x: target.rotation.y, y: 2 });
+
+      world.getModule(WorldModuleId.COLLECTIBLES).addCollector(unit);
     };
 
     graphic.traverse((child) => {

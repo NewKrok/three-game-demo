@@ -3,7 +3,7 @@ import { TextureId } from "./assets-config";
 import { carControllerConfig } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/player-controller-boilerplates.js";
 import { getTexture } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 
-const TPSDemoPlayerActionId = {
+const CustomPlayerActionId = {
   CHANGE_CAMERA_DISTANCE: "CHANGE_CAMERA_DISTANCE",
   CHANGE_CAR_COLOR: "CHANGE_CAR_COLOR",
 };
@@ -23,11 +23,11 @@ export const playerControllerConfig = {
   actionConfig: [
     ...carControllerConfig.actionConfig,
     {
-      actionId: TPSDemoPlayerActionId.CHANGE_CAMERA_DISTANCE,
+      actionId: CustomPlayerActionId.CHANGE_CAMERA_DISTANCE,
       keys: [Key.C],
     },
     {
-      actionId: TPSDemoPlayerActionId.CHANGE_CAR_COLOR,
+      actionId: CustomPlayerActionId.CHANGE_CAR_COLOR,
       keys: [Key.V],
     },
   ],
@@ -35,18 +35,21 @@ export const playerControllerConfig = {
   handlers: [
     ...carControllerConfig.handlers,
     {
-      actionId: TPSDemoPlayerActionId.CHANGE_CAMERA_DISTANCE,
+      actionId: CustomPlayerActionId.CHANGE_CAMERA_DISTANCE,
       callback: ({ world }) => {
         selectedCameraDistance++;
         if (selectedCameraDistance === cameraDistances.length)
           selectedCameraDistance = 0;
         world.userData.maxCameraDistance =
           cameraDistances[selectedCameraDistance];
-        world.tpsCamera.setMaxDistance(world.userData.maxCameraDistance);
+        if (world.userData.tpsCamera)
+          world.userData.tpsCamera.setMaxDistance(
+            world.userData.maxCameraDistance
+          );
       },
     },
     {
-      actionId: TPSDemoPlayerActionId.CHANGE_CAR_COLOR,
+      actionId: CustomPlayerActionId.CHANGE_CAR_COLOR,
       callback: ({ target }) => {
         selectedCarTexture++;
         if (selectedCarTexture === carTextures.length) selectedCarTexture = 0;

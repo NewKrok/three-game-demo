@@ -1,16 +1,18 @@
-# THREE TPS Demo
+# THREE Game Demo
 
-Demo game project for **@newkrok/three-tps** https://www.npmjs.com/package/@newkrok/three-tps
+Demo game projects for **@newkrok/three-game** https://www.npmjs.com/package/@newkrok/three-game
 
 ## Try it!
 
-https://www.newkrok.com/three-tps-demo/index.html
+https://www.newkrok.com/three-game-demo/index.html
 
 # Videos
+
 - https://youtu.be/SgFM573ADhI
 - https://youtu.be/VSeJ5erSWtQ
 
 # Screenshots
+
 <img src="https://user-images.githubusercontent.com/13141660/161452509-92385f79-bfb8-462a-aecf-759d68bc9fa8.png" width="40%"></img>
 <img src="https://user-images.githubusercontent.com/13141660/167514511-97f4472a-fbd2-4dfd-8574-84ee0ba8a2a9.png" width="40%"></img>
 <img src="https://user-images.githubusercontent.com/13141660/168452843-c8547d3f-d062-47c3-addc-ba7862d78c69.png" width="40%"></img>
@@ -21,6 +23,7 @@ https://www.newkrok.com/three-tps-demo/index.html
 # Assets
 
 **Used assets are free assets from unity asset store**
+
 - Environment, character and weapons https://assetstore.unity.com/packages/3d/props/polygon-starter-pack-low-poly-3d-art-by-synty-156819
 - Skybox https://assetstore.unity.com/packages/2d/textures-materials/sky/colorskies-91541
 - Track Roads https://assetstore.unity.com/packages/3d/environments/roadways/modular-lowpoly-track-roads-free-205188#description

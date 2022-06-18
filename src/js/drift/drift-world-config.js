@@ -16,7 +16,7 @@ import { disposeRegions, initRegion } from "./region-config";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { carConfig } from "./car-config.js";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
-import { getTPSWorldConfig } from "@newkrok/three-tps/src/js/newkrok/three-tps/tps-world.js";
+import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import gsap from "gsap";
 import { octreeCarModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree-car/octree-car-module.js";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
@@ -24,21 +24,18 @@ import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/obj
 import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { regionModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/region/region-module.js";
 import { staticParams } from "../static";
+import { thirdPersonCameraModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/third-person-camera/third-person-camera-module.js";
 import { verletIntegrationModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/verlet-integration/verlet-integration-module.js";
 
-const CarsWorldConfig = patchObject(getTPSWorldConfig(), {
+const CarsWorldConfig = patchObject(getDefaultWorldConfig(), {
   assetsConfig: assetsConfig,
-  tpsCamera: {
-    yBoundaries: { min: 1.2, max: 2.7 },
-    maxDistance: cameraDistances[0],
-  },
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
   },
   fog: new THREE.Fog(0x88ccee, 0, 300),
   entities: () => {
     const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-    directionalLight.position.set(100, 30, 100);
+    directionalLight.position.set(100, 40, 150);
     directionalLight.castShadow = true;
     const d = 200;
     directionalLight.shadow.mapSize.width = 2048;
@@ -58,11 +55,17 @@ const CarsWorldConfig = patchObject(getTPSWorldConfig(), {
     ];
   },
   modules: [
+    patchObject(thirdPersonCameraModule, {
+      config: {
+        yBoundaries: { min: 1.2, max: 2.7 },
+        maxDistance: cameraDistances[0],
+      },
+    }),
     octreeModule,
     { ...regionModule, config: { debug: false } },
     collectiblesModule,
     verletIntegrationModule,
-    { ...octreeCarModule, config: { debug: false } },
+    patchObject(octreeCarModule, { config: { debug: false } }),
     {
       ...playerControllerModule,
       config: playerControllerConfig,
@@ -96,16 +99,22 @@ const CarsWorldConfig = patchObject(getTPSWorldConfig(), {
     );
   },
   onLoaded: (world) => {
-    const { on, getModule, getStaticModel, tpsCamera } = world;
+    const { on, getModule, getStaticModel } = world;
     staticParams.world = world;
     on.pause(() => gsap.globalTimeline.pause());
     on.resume(() => gsap.globalTimeline.resume());
 
     const collision = getStaticModel("level-collision").scene;
     collision.visible = false;
-    getModule(WorldModuleId.OCTREE).worldOctree.fromGraphNode(collision);
+    const worldOctree = getModule(WorldModuleId.OCTREE).worldOctree;
+    worldOctree.fromGraphNode(collision);
 
     const graphic = getStaticModel("level-graphic").scene;
+
+    const thirdPersonCamera = getModule(WorldModuleId.THIRD_PERSON_CAMERA);
+    world.setCamera(thirdPersonCamera.instance);
+    world.userData.tpsCamera = thirdPersonCamera;
+    thirdPersonCamera.setWorldOctree(worldOctree);
 
     const initPlayer = (target) => {
       target.visible = false;
@@ -162,10 +171,10 @@ const CarsWorldConfig = patchObject(getTPSWorldConfig(), {
         lapsCount.set(0);
       });
 
-      tpsCamera.setTarget(car.model);
-      tpsCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
-      tpsCamera.setRotation({ x: target.rotation.y, y: 2 });
-      tpsCamera.setUseTargetRotation(true);
+      thirdPersonCamera.setTarget(car.model);
+      thirdPersonCamera.setPositionOffset(new THREE.Vector3(0, 1.6, 0));
+      thirdPersonCamera.setRotation({ x: target.rotation.y, y: 2 });
+      thirdPersonCamera.setUseTargetRotation(true);
     };
 
     graphic.traverse((child) => {
