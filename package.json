@@ -1,6 +1,6 @@
 {
   "name": "@newkrok/three-game-demo",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "description": "Demo game projects for NewKrok's THREE GAME",
   "main": "src/js/three-game-demo.js",
   "bin": {
@@ -31,8 +31,8 @@
   },
   "dependencies": {
     "@material/theme": "^13.0.0",
-    "@newkrok/three-particles": "^0.8.4",
-    "@newkrok/three-game": "^1.0.1",
+    "@newkrok/three-particles": "^1.0.0",
+    "@newkrok/three-game": "^1.1.0",
     "@newkrok/three-utils": "^0.4.0",
     "@smui/button": "6.0.0-beta.15",
     "@smui/card": "6.0.0-beta.15",
@@ -42,7 +42,8 @@
     "@smui/tab-bar": "6.0.0-beta.15",
     "@smui/textfield": "6.0.0-beta.15",
     "gsap": "3.10.4",
-    "three": "^0.141.0"
+    "matter-js": "0.18.0",
+    "three": "^0.144.0"
   },
   "devDependencies": {
     "@rollup/plugin-commonjs": "17.0.0",

@@ -3,6 +3,8 @@
   import Demo from "./demo.svelte";
 
   const version = PACKAGE_VERSION;
+  const list = [...demoData];
+  list.reverse();
 </script>
 
 <div class="wrapper">
@@ -11,7 +13,7 @@
     <div>version: {version}</div>
   </div>
   <div class="content">
-    {#each demoData as demo (demo.name)}
+    {#each list as demo (demo.name)}
       <Demo config={demo} />
     {/each}
   </div>

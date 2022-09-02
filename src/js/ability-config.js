@@ -77,7 +77,7 @@ export const abilityConfig = {
         const dashEffect = createParticleSystem(
           effectsConfig[EffectId.DASH],
           world.cycleData.now
-        );
+        ).instance;
         const scaleConversion = 1 / caster.model.scale.x;
         dashEffect.scale.set(scaleConversion, scaleConversion, scaleConversion);
         dashEffect.position.y *= scaleConversion;

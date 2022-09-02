@@ -131,7 +131,7 @@ const CarsWorldConfig = patchObject(getDefaultWorldConfig(), {
 
         const leftSmogEffect = createParticleSystem(
           effectsConfig[EffectId.CAR_SMOG]
-        );
+        ).instance;
         leftSmogEffect.scale.set(
           scaleConversion,
           scaleConversion,
@@ -145,7 +145,7 @@ const CarsWorldConfig = patchObject(getDefaultWorldConfig(), {
 
         const rightSmogEffect = createParticleSystem(
           effectsConfig[EffectId.CAR_SMOG]
-        );
+        ).instance;
         rightSmogEffect.scale.set(
           scaleConversion,
           scaleConversion,

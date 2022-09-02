@@ -6,10 +6,12 @@
   import CheckpointTimes from "../game/checkpoint-times/checkpoint-times.svelte";
   import DriftWorldConfig from "../../js/drift/drift-world-config";
   import SnakeVSWorldConfig from "../../js/snake-vs/snake-vs-world-config";
+  import MonsterTruck2DWorldConfig from "../../js/monster-truck-2d/monster-truck-2d-world-config";
   import TheCollectorWorldConfig from "../../js/the-collector/the-collector-world-config";
   import AbilityList from "../game/ability-list/ability-list.svelte";
   import GameClock from "../game/game-clock/game-clock.svelte";
   import Leaderboard from "../game/leaderboard/leaderboard.svelte";
+  import Tricks from "../game/tricks/tricks.svelte";
 
   // TODO: Add separated control info
   export const demoData = [
@@ -19,6 +21,7 @@
         "This is a simple shooter demo where 2 teams are trying to beat each others.",
       preview: "./assets/demo-previews/arena.webp",
       worldConfig: ArenaWorldConfig,
+      isPointerLockNeeded: true,
       components: [ToolSelector, AbilityList],
       controls: [
         {
@@ -74,6 +77,7 @@
         "A game where you should collect all of the coins as fast as possible.",
       preview: "./assets/demo-previews/the-collector.webp",
       worldConfig: TheCollectorWorldConfig,
+      isPointerLockNeeded: true,
       components: [CollectedCoins, AbilityList, GameClock],
       controls: [
         {
@@ -117,6 +121,7 @@
         "This is an Octree-Car demo, press the gas pedal and beat the bends.",
       preview: "./assets/demo-previews/drift.webp",
       worldConfig: DriftWorldConfig,
+      isPointerLockNeeded: false,
       components: [CarSpeedDisplay, CheckpointTimes],
       controls: [
         {
@@ -151,7 +156,35 @@
         "A classic game in 3D and with enemies. A simple example how can you combine your own game logic with this engine.",
       preview: "./assets/demo-previews/snake-vs.webp",
       worldConfig: SnakeVSWorldConfig,
+      isPointerLockNeeded: false,
       components: [GameClock, Leaderboard],
+      controls: [
+        {
+          keys: ["w", "a", "s", "d"],
+          name: "Movements",
+        },
+        {
+          keys: [
+            "keyboard_arrow_up",
+            "keyboard_arrow_left",
+            "keyboard_arrow_down",
+            "keyboard_arrow_right",
+          ],
+          name: "Movements (2)",
+        },
+        {
+          keys: ["c"],
+          name: "Change Camera",
+        },
+      ],
+    },
+    {
+      name: "Monster Truck 2D",
+      description: "",
+      preview: "./assets/demo-previews/monster-truck-2d.webp",
+      worldConfig: MonsterTruck2DWorldConfig,
+      isPointerLockNeeded: false,
+      components: [GameClock, CollectedCoins, Tricks],
       controls: [
         {
           keys: ["w", "a", "s", "d"],

@@ -34,7 +34,7 @@ const defaultConfig = {
               const bulletEffect = createParticleSystem(
                 effectsConfig[EffectId.BULLET],
                 world.cycleData.now
-              );
+              ).instance;
               bulletEffect.name = "bulletEffect";
               mesh.add(bulletEffect);
             },
@@ -49,7 +49,7 @@ const defaultConfig = {
               const collisionEffect = createParticleSystem(
                 effectsConfig[EffectId.BULLET_EXPLOSION],
                 world.cycleData.now
-              );
+              ).instance;
               collisionEffect.position.copy(position);
               world.scene.add(collisionEffect);
               gsap.delayedCall(1.5, () =>
@@ -63,7 +63,7 @@ const defaultConfig = {
       const creationEffect = createParticleSystem(
         effectsConfig[EffectId.SHOOTING],
         world.cycleData.now
-      );
+      ).instance;
       creationEffect.position.copy(position);
       var rotationMatrix = new THREE.Matrix4().lookAt(
         direction,

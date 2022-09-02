@@ -139,7 +139,7 @@ export const createSnakeLogic = ({ scene, thirdPersonCamera }) => {
   const dustEffect = createParticleSystem(
     effectsConfig[EffectId.DUST],
     staticParams.cycleData.now
-  );
+  ).instance;
   dustEffect.position.x = worldSize.x / 2 - 0.6;
   dustEffect.position.z = worldSize.z / 2 - 0.5;
   scene.add(dustEffect);
@@ -348,7 +348,7 @@ export const createSnakeLogic = ({ scene, thirdPersonCamera }) => {
     const collectibleCircleEffect = createParticleSystem(
       effectsConfig[EffectId.COLLECTIBLE_CIRCLE],
       staticParams.cycleData.now
-    );
+    ).instance;
     collectibleCircleEffect.position.y = 0.05;
     item.add(collectibleCircleEffect);
 
@@ -423,7 +423,7 @@ export const createSnakeLogic = ({ scene, thirdPersonCamera }) => {
             const snakeExplosionEffect = createParticleSystem(
               effectsConfig[EffectId.SNAKE_EXPLOSION],
               staticParams.cycleData.now
-            );
+            ).instance;
             snakeExplosionEffect.position.copy(mesh.position);
             snakeExplosionEffect.position.y = 1;
             scene.add(snakeExplosionEffect);
@@ -479,7 +479,7 @@ export const createSnakeLogic = ({ scene, thirdPersonCamera }) => {
             const collectibleCollectEffect = createParticleSystem(
               effectsConfig[EffectId.COLLECTIBLE_COLLECT],
               staticParams.cycleData.now
-            );
+            ).instance;
             collectibleCollectEffect.position.copy(item.position);
             collectibleCollectEffect.position.y = 1;
             scene.add(collectibleCollectEffect);

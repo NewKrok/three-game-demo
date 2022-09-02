@@ -50,7 +50,7 @@ export const initRegion = (area) => {
         const finishEffect = createParticleSystem(
           effectsConfig[EffectId.TELEPORT_ACTIVATE],
           staticParams.cycleData.now
-        );
+        ).instance;
         finishEffect.position.copy(spawn.position);
         finishEffect.position.y -= 0.2;
         staticParams.world.scene.add(finishEffect);
@@ -64,7 +64,7 @@ export const initRegion = (area) => {
         const effect = createParticleSystem(
           effectsConfig[EffectId.TELEPORT_POINT],
           staticParams.cycleData.now
-        );
+        ).instance;
         effect.position.copy(area.position);
         effect.position.y -= 0.2;
         staticParams.world.scene.add(effect);
@@ -84,7 +84,7 @@ export const initRegion = (area) => {
         const effect = createParticleSystem(
           effectsConfig[EffectId.TELEPORT_ACTIVATE],
           staticParams.cycleData.now
-        );
+        ).instance;
         effect.position.copy(portal.position);
         effect.position.y -= 0.2;
         staticParams.world.scene.add(effect);
@@ -110,7 +110,7 @@ export const initRegion = (area) => {
           const finishEffect = createParticleSystem(
             effectsConfig[EffectId.TELEPORT_ACTIVATE],
             staticParams.cycleData.now
-          );
+          ).instance;
           finishEffect.position.copy(spawn.position);
           finishEffect.position.y -= 0.2;
           staticParams.world.scene.add(finishEffect);

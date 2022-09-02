@@ -1,4 +1,5 @@
 <script>
+  import { staticParams } from "./../../js/static.js";
   import { get } from "svelte/store";
   import Pause from "./pause/pause.svelte";
   import LevelPreloader from "../demo-preloader/demo-preloader.svelte";
@@ -7,13 +8,16 @@
   import { selectedDemo } from "../../store/app";
 
   let loaded = false;
-  const { components, worldConfig } = get(selectedDemo) || {};
+  const { components, worldConfig, isPointerLockNeeded } =
+    get(selectedDemo) || {};
 
   window.tpsDemo.on.init(() => {
     setTimeout(() => {
       loaded = true;
     }, 1000);
   });
+
+  staticParams.isPointerLockNeeded = isPointerLockNeeded;
 
   onMount(() => {
     initThreeTPSDemo("#three-tps-demo", worldConfig);

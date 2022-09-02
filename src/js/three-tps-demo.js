@@ -47,10 +47,13 @@ export const initThreeTPSDemo = (targetQuery, worldConfig) => {
 
       window.tpsDemo.game.world = world;
       initCallbacks.forEach((callback) => callback());
-      target.onclick = () => {
-        target.requestPointerLock();
-        target.onclick = null;
-      };
+
+      if (staticParams.isPointerLockNeeded) {
+        target.onclick = () => {
+          target.requestPointerLock();
+          target.onclick = null;
+        };
+      }
 
       world.on.update((cycleData) => {
         if (!cycleData.isPaused) updateParticleSystems(cycleData);

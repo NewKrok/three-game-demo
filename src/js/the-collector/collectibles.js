@@ -30,7 +30,7 @@ export const collectiblesData = {
         const effect = createParticleSystem(
           effectsConfig[EffectId.ACTIVATE_COIN],
           staticParams.cycleData.now
-        );
+        ).instance;
         effect.position.copy(model.position);
         staticParams.world.scene.add(effect);
         gsap.delayedCall(1, () => destroyParticleSystem(effect));
@@ -46,7 +46,7 @@ export const collectiblesData = {
         const effect = createParticleSystem(
           effectsConfig[EffectId.COLLECT_COIN],
           staticParams.cycleData.now
-        );
+        ).instance;
         effect.position.copy(model.position);
         staticParams.world.scene.add(effect);
         gsap.delayedCall(1, () => destroyParticleSystem(effect));

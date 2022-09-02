@@ -4,6 +4,7 @@
   import Dialog, { Title, Actions } from "@smui/dialog";
   import Button, { Label } from "@smui/button";
   import { Icon } from "@smui/icon-button";
+  import { staticParams } from "../../../js/static.js";
 
   let open = false;
 
@@ -23,7 +24,8 @@
   });
   const close = () => {
     window.tpsDemo.game.world.resume();
-    window.tpsDemo.game.world.renderer.domElement.requestPointerLock();
+    if (staticParams.isPointerLockNeeded)
+      window.tpsDemo.game.world.renderer.domElement.requestPointerLock();
   };
   const exitGame = () => {
     close();
