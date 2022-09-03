@@ -35,6 +35,7 @@ https://www.newkrok.com/three-game-demo/index.html
 - Track Roads https://assetstore.unity.com/packages/3d/environments/roadways/modular-lowpoly-track-roads-free-205188#description
 - Car https://assetstore.unity.com/packages/3d/vehicles/land/arcade-free-racing-car-161085#description
 - Snakes VS: https://assetstore.unity.com/packages/3d/characters/blocky-snakes-asset-pack-demo-126686
+- Monster Truck 2D: https://assetstore.unity.com/packages/3d/vehicles/land/cartoon-monster-truck-44776
 
 # Animations
 
