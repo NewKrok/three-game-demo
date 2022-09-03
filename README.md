@@ -8,6 +8,7 @@ https://www.newkrok.com/three-game-demo/index.html
 
 # Videos
 
+- https://youtu.be/wE9oCLrew_c
 - https://youtu.be/46quUoY8d2w
 - https://youtu.be/SgFM573ADhI
 - https://youtu.be/VSeJ5erSWtQ
