@@ -4,4 +4,5 @@ export const staticParams = {
   isControlDisabled: false,
   isPointerLockNeeded: false,
   cycleData: { now: Date.now(), isPaused: false },
+  getRandomAvailablePoint: null,
 };

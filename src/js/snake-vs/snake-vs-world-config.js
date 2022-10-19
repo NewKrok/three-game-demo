@@ -7,16 +7,16 @@ import {
 } from "./player-controller-config";
 
 import { CallLimits } from "@newkrok/three-utils/src/js/newkrok/three-utils/callback-utils.js";
+import { ObjectUtils } from "@newkrok/three-utils";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { createSnakeLogic } from "./snake-logic";
 import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import gsap from "gsap";
-import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { staticParams } from "../static";
 import { thirdPersonCameraModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/third-person-camera/third-person-camera-module.js";
 
-const SnakeVSWorldConfig = patchObject(getDefaultWorldConfig(), {
+const SnakeVSWorldConfig = ObjectUtils.patchObject(getDefaultWorldConfig(), {
   assetsConfig: assetsConfig,
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
@@ -47,7 +47,7 @@ const SnakeVSWorldConfig = patchObject(getDefaultWorldConfig(), {
       ...playerControllerModule,
       config: playerControllerConfig,
     },
-    patchObject(thirdPersonCameraModule, {
+    ObjectUtils.patchObject(thirdPersonCameraModule, {
       config: {
         callLimit: CallLimits.NO_LIMIT,
         yBoundaries: { min: -Math.PI * 2, max: Math.PI * 2 },

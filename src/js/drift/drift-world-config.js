@@ -7,27 +7,24 @@ import {
   playerControllerConfig,
 } from "./player-controller-config";
 import { carSpeed, checkpointEntries, lapsCount } from "../../store/app";
-import {
-  createParticleSystem,
-  destroyParticleSystem,
-} from "@newkrok/three-particles/src/js/effects/three-particles";
 import { disposeRegions, initRegion } from "./region-config";
 
+import { ObjectUtils } from "@newkrok/three-utils";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { carConfig } from "./car-config.js";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
+import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import gsap from "gsap";
 import { octreeCarModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree-car/octree-car-module.js";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
-import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { regionModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/region/region-module.js";
 import { staticParams } from "../static";
 import { thirdPersonCameraModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/third-person-camera/third-person-camera-module.js";
 import { verletIntegrationModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/verlet-integration/verlet-integration-module.js";
 
-const CarsWorldConfig = patchObject(getDefaultWorldConfig(), {
+const CarsWorldConfig = ObjectUtils.patchObject(getDefaultWorldConfig(), {
   assetsConfig: assetsConfig,
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
@@ -55,7 +52,7 @@ const CarsWorldConfig = patchObject(getDefaultWorldConfig(), {
     ];
   },
   modules: [
-    patchObject(thirdPersonCameraModule, {
+    ObjectUtils.patchObject(thirdPersonCameraModule, {
       config: {
         yBoundaries: { min: 1.2, max: 2.7 },
         maxDistance: cameraDistances[0],
@@ -65,7 +62,7 @@ const CarsWorldConfig = patchObject(getDefaultWorldConfig(), {
     { ...regionModule, config: { debug: false } },
     collectiblesModule,
     verletIntegrationModule,
-    patchObject(octreeCarModule, { config: { debug: false } }),
+    ObjectUtils.patchObject(octreeCarModule, { config: { debug: false } }),
     {
       ...playerControllerModule,
       config: playerControllerConfig,

@@ -7,6 +7,10 @@
     "newkrok",
     "octree",
     "respawnTime",
-    "verlet"
+    "verlet",
+    "Tweens",
+    "threejs",
+    "gsap",
+    "yoyo"
   ]
 }

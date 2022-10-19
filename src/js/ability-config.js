@@ -1,10 +1,8 @@
 import * as THREE from "three";
 
 import { EffectId, effectsConfig } from "./effects-config";
-import {
-  createParticleSystem,
-  destroyParticleSystem,
-} from "@newkrok/three-particles/src/js/effects/three-particles";
+
+import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 
 export const AbilityId = {
   PISTOL_SHOOT: "PISTOL_SHOOT",
@@ -77,12 +75,16 @@ export const abilityConfig = {
         const dashEffect = createParticleSystem(
           effectsConfig[EffectId.DASH],
           world.cycleData.now
-        ).instance;
+        );
         const scaleConversion = 1 / caster.model.scale.x;
-        dashEffect.scale.set(scaleConversion, scaleConversion, scaleConversion);
-        dashEffect.position.y *= scaleConversion;
-        caster.model.add(dashEffect);
-        setTimeout(() => destroyParticleSystem(dashEffect), 1000);
+        dashEffect.instance.scale.set(
+          scaleConversion,
+          scaleConversion,
+          scaleConversion
+        );
+        dashEffect.instance.position.y *= scaleConversion;
+        caster.model.add(dashEffect.instance);
+        setTimeout(dashEffect.dispose, 1000);
       },
     },
   },

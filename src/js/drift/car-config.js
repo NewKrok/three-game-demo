@@ -1,10 +1,10 @@
 import * as THREE from "three";
 
 import { FBXModelId } from "./assets-config";
+import { ObjectUtils } from "@newkrok/three-utils";
 import { basicCar } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/car-boilerplates.js";
-import { deepMerge } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
-export const carConfig = deepMerge(basicCar, {
+export const carConfig = ObjectUtils.deepMerge(basicCar, {
   body: {
     model: {
       fbx: {

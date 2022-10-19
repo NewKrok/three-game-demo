@@ -1,14 +1,11 @@
 import * as THREE from "three";
 
 import { EffectId, effectsConfig } from "../effects-config";
-import {
-  createParticleSystem,
-  destroyParticleSystem,
-} from "@newkrok/three-particles/src/js/effects/three-particles";
 
 import { GLTFModelId } from "./assets-config";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { collectedCollectableCount } from "../../store/app";
+import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 import gsap from "gsap";
 import { staticParams } from "../static";
 
@@ -30,10 +27,10 @@ export const collectiblesData = {
         const effect = createParticleSystem(
           effectsConfig[EffectId.ACTIVATE_COIN],
           staticParams.cycleData.now
-        ).instance;
-        effect.position.copy(model.position);
-        staticParams.world.scene.add(effect);
-        gsap.delayedCall(1, () => destroyParticleSystem(effect));
+        );
+        effect.instance.position.copy(model.position);
+        staticParams.world.scene.add(effect.instance);
+        gsap.delayedCall(1, effect.dispose);
         model.scale.set(0, 0, 0);
         gsap.to(model.scale, {
           x: 1,
@@ -46,10 +43,10 @@ export const collectiblesData = {
         const effect = createParticleSystem(
           effectsConfig[EffectId.COLLECT_COIN],
           staticParams.cycleData.now
-        ).instance;
-        effect.position.copy(model.position);
-        staticParams.world.scene.add(effect);
-        gsap.delayedCall(1, () => destroyParticleSystem(effect));
+        );
+        effect.instance.position.copy(model.position);
+        staticParams.world.scene.add(effect.instance);
+        gsap.delayedCall(1, effect.dispose);
         collectedCollectableCount.update((prev) => prev + 1);
       },
     },

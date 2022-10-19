@@ -1,7 +1,7 @@
+import { AssetsUtils } from "@newkrok/three-utils/assets";
 import { Key } from "@newkrok/three-game/src/js/newkrok/three-game/control/keyboard-manager.js";
 import { TextureId } from "./assets-config";
 import { carControllerConfig } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/player-controller-boilerplates.js";
-import { getTexture } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 
 const CustomPlayerActionId = {
   CHANGE_CAMERA_DISTANCE: "CHANGE_CAMERA_DISTANCE",
@@ -53,7 +53,7 @@ export const playerControllerConfig = {
       callback: ({ target }) => {
         selectedCarTexture++;
         if (selectedCarTexture === carTextures.length) selectedCarTexture = 0;
-        target.model.children[0].material.map = getTexture(
+        target.model.children[0].material.map = AssetsUtils.getTexture(
           carTextures[selectedCarTexture]
         );
       },

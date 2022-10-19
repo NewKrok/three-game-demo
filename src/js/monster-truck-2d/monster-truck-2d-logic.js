@@ -3,12 +3,12 @@ import * as THREE from "three";
 import { EffectId, effectsConfig } from "../effects-config";
 import { collectiblesData, initCollectible } from "./collectibles";
 
+import { AssetsUtils } from "@newkrok/three-utils/assets";
 import { GLTFModelId } from "./assets-config";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { availableCollectableCount } from "../../store/app";
 import { carConfig } from "./car-config.js";
 import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
-import { getGLTFModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 import { staticParams } from "../static";
 
 export const createMonsterTruck2DLogic = ({
@@ -46,7 +46,7 @@ export const createMonsterTruck2DLogic = ({
 
   staticParams.world.getModule(WorldModuleId.COLLECTIBLES).addCollector(car);
 
-  const coins = getGLTFModel(GLTFModelId.COINS).scene;
+  const coins = AssetsUtils.getGLTFModel(GLTFModelId.COINS).scene;
   scene.add(coins);
   coins.traverse((child) => {
     if (child.isMesh) {
@@ -55,7 +55,7 @@ export const createMonsterTruck2DLogic = ({
     }
   });
 
-  const level = getGLTFModel(GLTFModelId.LEVEL).scene;
+  const level = AssetsUtils.getGLTFModel(GLTFModelId.LEVEL).scene;
   scene.add(level);
   napeModule.createStaticBodiesFromModel({ model: level });
 

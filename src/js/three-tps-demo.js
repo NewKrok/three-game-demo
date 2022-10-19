@@ -2,9 +2,9 @@
 
 //import Stats from "three/examples/jsm/libs/stats.module.js";
 
+import { AssetsUtils } from "@newkrok/three-utils/assets";
 import { createWorld } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
 import { effectsConfig } from "./effects-config";
-import { getTexture } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 import { staticParams } from "./static";
 import { updateParticleSystems } from "@newkrok/three-particles/src/js/effects/three-particles";
 
@@ -42,7 +42,7 @@ export const initThreeTPSDemo = (targetQuery, worldConfig) => {
       }; */
 
       Object.keys(effectsConfig).forEach((key) => {
-        effectsConfig[key].map = getTexture(effectsConfig[key].map);
+        effectsConfig[key].map = AssetsUtils.getTexture(effectsConfig[key].map);
       });
 
       window.tpsDemo.game.world = world;

@@ -3,15 +3,12 @@ import * as THREE from "three";
 import { EffectId, effectsConfig } from "../effects-config";
 import { FBXModelId, GLTFModelId, TextureId } from "./assets-config.js";
 import {
-  createParticleSystem,
-  destroyParticleSystem,
-} from "@newkrok/three-particles/src/js/effects/three-particles";
-import {
   getFBXModel,
   getGLTFModel,
   getTexture,
 } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 
+import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 import gsap from "gsap";
 import { leaderBoard } from "../../store/app";
 import { staticParams } from "../static";
@@ -423,13 +420,11 @@ export const createSnakeLogic = ({ scene, thirdPersonCamera }) => {
             const snakeExplosionEffect = createParticleSystem(
               effectsConfig[EffectId.SNAKE_EXPLOSION],
               staticParams.cycleData.now
-            ).instance;
-            snakeExplosionEffect.position.copy(mesh.position);
-            snakeExplosionEffect.position.y = 1;
-            scene.add(snakeExplosionEffect);
-            gsap.delayedCall(3, () =>
-              destroyParticleSystem(snakeExplosionEffect)
             );
+            snakeExplosionEffect.instance.position.copy(mesh.position);
+            snakeExplosionEffect.instance.position.y = 1;
+            scene.add(snakeExplosionEffect.instance);
+            gsap.delayedCall(3, snakeExplosionEffect.dispose);
             scene.remove(mesh);
           });
         })
@@ -479,13 +474,11 @@ export const createSnakeLogic = ({ scene, thirdPersonCamera }) => {
             const collectibleCollectEffect = createParticleSystem(
               effectsConfig[EffectId.COLLECTIBLE_COLLECT],
               staticParams.cycleData.now
-            ).instance;
-            collectibleCollectEffect.position.copy(item.position);
-            collectibleCollectEffect.position.y = 1;
-            scene.add(collectibleCollectEffect);
-            gsap.delayedCall(3, () =>
-              destroyParticleSystem(collectibleCollectEffect)
             );
+            collectibleCollectEffect.instance.position.copy(item.position);
+            collectibleCollectEffect.instance.position.y = 1;
+            scene.add(collectibleCollectEffect.instance);
+            gsap.delayedCall(3, collectibleCollectEffect.dispose);
 
             item.position.copy(getRandomAvailablePoint());
             snake.grow();

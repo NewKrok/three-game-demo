@@ -1,4 +1,5 @@
 <script context="module">
+  import TankBattleWorldConfig from "./../../js/tank-battle/tank-battle-world-config.js";
   import ArenaWorldConfig from "../../js/arena/arena-world-config";
   import CarSpeedDisplay from "../game/car-speed-display/car-speed-display.svelte";
   import ToolSelector from "../game/tool-selector/tool-selector.svelte";
@@ -12,6 +13,9 @@
   import GameClock from "../game/game-clock/game-clock.svelte";
   import Leaderboard from "../game/leaderboard/leaderboard.svelte";
   import Tricks from "../game/tricks/tricks.svelte";
+  import LifeCount from "../game/life-count/life-count.svelte";
+  import PlayerTankCounter from "../game/tank-counter/player-tank-counter.svelte";
+  import OpponentTankCounter from "../game/tank-counter/opponent-tank-counter.svelte";
 
   // TODO: Add separated control info
   export const demoData = [
@@ -180,7 +184,8 @@
     },
     {
       name: "Monster Truck 2D",
-      description: "",
+      description:
+        "A 2D physics based car game. It's using the Nape physics, compiled from Haxe to Javascript.",
       preview: "./assets/demo-previews/monster-truck-2d.webp",
       worldConfig: MonsterTruck2DWorldConfig,
       isPointerLockNeeded: false,
@@ -202,6 +207,47 @@
         {
           keys: ["c"],
           name: "Change Camera",
+        },
+      ],
+    },
+    {
+      name: "Tank Battle",
+      description:
+        "A demo game inspired by the classic Battle City. Red vs Green! It presents how can you add your custom collision detection for the projectiles module.",
+      preview: "./assets/demo-previews/tank-battle.webp",
+      worldConfig: TankBattleWorldConfig,
+      isPointerLockNeeded: false,
+      components: [
+        GameClock,
+        LifeCount,
+        PlayerTankCounter,
+        OpponentTankCounter,
+      ],
+      controls: [
+        {
+          keys: ["w", "a", "s", "d"],
+          name: "Movements",
+        },
+        {
+          keys: [
+            "keyboard_arrow_up",
+            "keyboard_arrow_left",
+            "keyboard_arrow_down",
+            "keyboard_arrow_right",
+          ],
+          name: "Movements (2)",
+        },
+        {
+          keys: ["space"],
+          name: "Shooting",
+        },
+        {
+          keys: ["c"],
+          name: "Change Camera",
+        },
+        {
+          keys: ["v"],
+          name: "Change Tank Color",
         },
       ],
     },

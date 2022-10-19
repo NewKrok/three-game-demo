@@ -3,11 +3,8 @@ import {
   UnitModuleId,
   WorldModuleId,
 } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
-import {
-  createParticleSystem,
-  destroyParticleSystem,
-} from "@newkrok/three-particles/src/js/effects/three-particles";
 
+import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 import gsap from "gsap";
 import { staticParams } from "../static";
 
@@ -50,12 +47,12 @@ export const initRegion = (area) => {
         const finishEffect = createParticleSystem(
           effectsConfig[EffectId.TELEPORT_ACTIVATE],
           staticParams.cycleData.now
-        ).instance;
-        finishEffect.position.copy(spawn.position);
-        finishEffect.position.y -= 0.2;
-        staticParams.world.scene.add(finishEffect);
+        );
+        finishEffect.instance.position.copy(spawn.position);
+        finishEffect.instance.position.y -= 0.2;
+        staticParams.world.scene.add(finishEffect.instance);
 
-        gsap.delayedCall(2, () => destroyParticleSystem(finishEffect));
+        gsap.delayedCall(2, finishEffect.dispose);
       });
     } else if (id.includes("portal")) {
       portals[id] = area;
@@ -84,17 +81,17 @@ export const initRegion = (area) => {
         const effect = createParticleSystem(
           effectsConfig[EffectId.TELEPORT_ACTIVATE],
           staticParams.cycleData.now
-        ).instance;
-        effect.position.copy(portal.position);
-        effect.position.y -= 0.2;
-        staticParams.world.scene.add(effect);
+        );
+        effect.instance.position.copy(portal.position);
+        effect.instance.position.y -= 0.2;
+        staticParams.world.scene.add(effect.instance);
 
         gsap.delayedCall(1, () => {
           staticParams.playersUnit.model.visible = false;
         });
 
         gsap.delayedCall(2, () => {
-          destroyParticleSystem(effect);
+          effect.dispose();
           const target = portalTargets[id];
           lastSpawnPoint = target;
           const spawn = spawns[target];
@@ -110,12 +107,12 @@ export const initRegion = (area) => {
           const finishEffect = createParticleSystem(
             effectsConfig[EffectId.TELEPORT_ACTIVATE],
             staticParams.cycleData.now
-          ).instance;
-          finishEffect.position.copy(spawn.position);
-          finishEffect.position.y -= 0.2;
-          staticParams.world.scene.add(finishEffect);
+          );
+          finishEffect.instance.position.copy(spawn.position);
+          finishEffect.instance.position.y -= 0.2;
+          staticParams.world.scene.add(finishEffect.instance);
 
-          gsap.delayedCall(2, () => destroyParticleSystem(finishEffect));
+          gsap.delayedCall(2, finishEffect.dispose);
         });
       });
     }

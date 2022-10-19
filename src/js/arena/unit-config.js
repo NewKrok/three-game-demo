@@ -5,11 +5,8 @@ import {
   HumanoidUnitAnimationId,
   humanoidUnit,
 } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/humanoid-unit-boilerplates.js";
-import {
-  deepMerge,
-  patchObject,
-} from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 
+import { ObjectUtils } from "@newkrok/three-utils";
 import { abilitiesModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/abilities/abilities-module.js";
 import { abilityConfig } from "../ability-config.js";
 import { aimingModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/aiming/aiming-module.js";
@@ -82,7 +79,7 @@ const animations = {
   [CustomUnitAnimationId.CHARACTERS_DASH]: FBXSkeletonAnimation.CHARACTERS_DASH,
 };
 
-const customUnit = deepMerge(humanoidUnit, {
+const customUnit = ObjectUtils.deepMerge(humanoidUnit, {
   modules: [aimingModule, { ...abilitiesModule, config: abilityConfig }],
   model: {
     fbx: {
@@ -117,7 +114,7 @@ const customUnit = deepMerge(humanoidUnit, {
 });
 
 export const unitConfig = {
-  [UnitId.MALE_CHARACTER]: patchObject(customUnit, {
+  [UnitId.MALE_CHARACTER]: ObjectUtils.patchObject(customUnit, {
     name: "male-character",
     model: {
       traverseCallback: (child) => {
@@ -127,7 +124,7 @@ export const unitConfig = {
       },
     },
   }),
-  [UnitId.FEMALE_CHARACTER]: patchObject(customUnit, {
+  [UnitId.FEMALE_CHARACTER]: ObjectUtils.patchObject(customUnit, {
     name: "female-character",
     model: {
       traverseCallback: (child) => {

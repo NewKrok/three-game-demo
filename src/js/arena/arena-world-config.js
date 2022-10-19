@@ -8,14 +8,15 @@ import {
 } from "./player-controller-config";
 import { collectiblesData, initCollectible } from "./collectibles";
 
+import { AssetsUtils } from "@newkrok/three-utils/assets";
+import { CallLimits } from "@newkrok/three-utils/src/js/newkrok/three-utils/callback-utils.js";
 import { ModelSocketId } from "@newkrok/three-game/src/js/newkrok/three-game/unit/unit-enums.js";
+import { ObjectUtils } from "@newkrok/three-utils";
 import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
 import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
-import { getFBXModel } from "@newkrok/three-utils/src/js/newkrok/three-utils/assets/assets.js";
 import gsap from "gsap";
 import { octreeModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/octree/octree-module.js";
-import { patchObject } from "@newkrok/three-utils/src/js/newkrok/three-utils/object-utils.js";
 import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/player-controller/player-controller-module.js";
 import { projectilesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/projectiles/projectiles-module.js";
 import { staticParams } from "../static";
@@ -24,7 +25,7 @@ import { toolConfig } from "./tool-config";
 import { tpsMovementModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/tps-movements/tps-movements.js";
 import { unitsModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/units-module.js";
 
-const ArenaWorldConfig = patchObject(getDefaultWorldConfig(), {
+const ArenaWorldConfig = ObjectUtils.patchObject(getDefaultWorldConfig(), {
   assetsConfig: assetsConfig,
   renderer: {
     pixelRatio: window.devicePixelRatio > 1.4 ? 1.4 : 1,
@@ -53,7 +54,8 @@ const ArenaWorldConfig = patchObject(getDefaultWorldConfig(), {
   },
   modules: [
     unitsModule,
-    patchObject(thirdPersonCameraModule, {
+    ObjectUtils.patchObject(thirdPersonCameraModule, {
+      callLimit: CallLimits.NO_LIMIT,
       config: {
         yBoundaries: { min: 1.2, max: 2.7 },
         maxDistance: cameraDistances[0],
@@ -114,6 +116,11 @@ const ArenaWorldConfig = patchObject(getDefaultWorldConfig(), {
 
     const graphic = getStaticModel("level-graphic").scene;
 
+    const { addCollisionDetector } = getModule(WorldModuleId.PROJECTILES);
+    addCollisionDetector(({ collider }) =>
+      worldOctree.sphereIntersect(collider)
+    );
+
     const thirdPersonCamera = getModule(WorldModuleId.THIRD_PERSON_CAMERA);
     world.setCamera(thirdPersonCamera.instance);
     world.userData.tpsCamera = thirdPersonCamera;
@@ -141,7 +148,7 @@ const ArenaWorldConfig = patchObject(getDefaultWorldConfig(), {
 
     const createTools = () =>
       toolConfig.map((tool) => {
-        const object = getFBXModel(tool.model.fbx.id);
+        const object = AssetsUtils.getFBXModel(tool.model.fbx.id);
         object.rotation.set(Math.PI / 2, Math.PI, Math.PI);
         object.position.copy(tool.model.position);
 
