@@ -41,7 +41,9 @@ https://www.newkrok.com/three-game-demo/index.html
 - Snakes VS: https://assetstore.unity.com/packages/3d/characters/blocky-snakes-asset-pack-demo-126686
 - Monster Truck 2D: https://assetstore.unity.com/packages/3d/vehicles/land/cartoon-monster-truck-44776
 - Tank Battle: 
+  - https://assetstore.unity.com/packages/3d/vehicles/land/cartoon-tank-free-165189
   - https://assetstore.unity.com/packages/3d/props/low-poly-powerups-212079
+  - https://assetstore.unity.com/packages/3d/environments/cube-world-brick-blocks-proto-series-153993
 
 # Animations
 
