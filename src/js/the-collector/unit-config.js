@@ -3,13 +3,15 @@ import * as THREE from "three";
 import { FBXModelId, FBXSkeletonAnimation } from "./assets-config.js";
 import {
   HumanoidUnitAnimationId,
-  humanoidUnit,
+  humanoidShooterUnit,
 } from "@newkrok/three-game/src/js/newkrok/three-game/boilerplates/humanoid-unit-boilerplates.js";
 
 import { ObjectUtils } from "@newkrok/three-utils";
-import { abilitiesModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/abilities/abilities-module.js";
+import { UnitModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
+import { abilitiesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/unit/modules/abilities/abilities-module.js";
 import { abilityConfig } from "../ability-config.js";
-import { aimingModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/aiming/aiming-module.js";
+import { aimingModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/unit/modules/aiming/aiming-module.js";
+import { octreeBehaviorModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/unit/modules/octree-behavior/octree-behavior.js";
 
 export const CustomUnitAnimationId = {
   CHARACTERS_VICTORY: "CHARACTERS_VICTORY",
@@ -45,8 +47,12 @@ const animations = {
   [CustomUnitAnimationId.CHARACTERS_DASH]: FBXSkeletonAnimation.CHARACTERS_DASH,
 };
 
-const customUnit = ObjectUtils.deepMerge(humanoidUnit, {
-  modules: [aimingModule, { ...abilitiesModule, config: abilityConfig }],
+const customUnit = ObjectUtils.deepMerge(humanoidShooterUnit, {
+  modules: [
+    aimingModule,
+    { ...abilitiesModule, config: abilityConfig },
+    octreeBehaviorModule,
+  ],
   model: {
     fbx: {
       id: FBXModelId.CHARACTERS,
@@ -70,13 +76,15 @@ const customUnit = ObjectUtils.deepMerge(humanoidUnit, {
         transitionTime: 0.2,
         loop: false,
       },
-      ...humanoidUnit.animationConfig.rules,
+      ...humanoidShooterUnit.animationConfig.rules,
     ],
   },
   animations,
   speed: 25,
   speedModifier: (unit) =>
-    (unit.onGround ? unit.config.speed : 8) * (unit.userData.useSprint ? 2 : 1),
+    (unit.getModule(UnitModuleId.OCTREE_BEHAVIOR).properties.capsule.onGround
+      ? unit.config.speed
+      : 8) * (unit.userData.useSprint ? 2 : 1),
 });
 
 export const unitConfig = {

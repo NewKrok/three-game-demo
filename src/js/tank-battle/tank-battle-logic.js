@@ -16,7 +16,7 @@ import {
 
 import { AssetsUtils } from "@newkrok/three-utils/assets";
 import { Player } from "@newkrok/three-game/src/js/newkrok/three-game/players/players-enums.js";
-import { abilitiesModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/abilities/abilities-module.js";
+import { abilitiesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/unit/modules/abilities/abilities-module.js";
 import { createModuleHandler } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-handler.js";
 import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 import gsap from "gsap";

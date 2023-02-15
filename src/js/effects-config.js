@@ -24,6 +24,7 @@ export const EffectId = {
   WHEEL_SMOKE_SMALL: "WHEEL_SMOKE_SMALL",
   SMOKE: "SMOKE",
   INTENSE_SMOKE: "INTENSE_SMOKE",
+  RUNNING: "RUNNING",
 };
 
 export const effectsConfig = {
@@ -1299,6 +1300,68 @@ export const effectsConfig = {
       simulation: {
         movements: "PROJECTILE_STRAIGHT",
         movementSpeed: 3.9,
+        rotation: "FOLLOW_THE_MOVEMENT",
+        rotationSpeed: 0,
+      },
+      showLocalAxes: true,
+      showWorldAxes: false,
+      frustumCulled: true,
+      terrain: {
+        textureId: "WIREFRAME",
+        movements: "DISABLED",
+        movementSpeed: 1,
+        rotation: "DISABLED",
+        rotationSpeed: 1,
+      },
+    },
+    map: TextureId.POINT,
+  },
+  [EffectId.RUNNING]: {
+    transform: { position: { y: 0.1 } },
+    duration: 0.36,
+    startLifetime: { min: 0.3, max: 0.94 },
+    startSpeed: { min: 0.3, max: 0.9 },
+    startSize: { min: 2, max: 6 },
+    gravity: -0.64,
+    simulationSpace: "WORLD",
+    maxParticles: 10,
+    emission: { rateOverTime: 0, rateOverDistance: 5 },
+    shape: {
+      sphere: { radius: 0.2064 },
+      cone: { angle: 16.8097, radius: 0.1 },
+    },
+    renderer: { blending: "THREE.NormalBlending" },
+    sizeOverLifetime: {
+      isActive: true,
+      curveFunction: "CUBIC_OUT",
+      bezierPoints: [
+        { x: 0, y: 0.12, percentage: 0 },
+        { x: 0.1666, y: -0.0467 },
+        { x: 0.3499, y: 0.5316 },
+        { x: 0.5166, y: 0.365, percentage: 0.5166 },
+        { x: 0.6832, y: 0.1983 },
+        { x: 0.8333, y: 0.1665 },
+        { x: 1, y: 0, percentage: 1 },
+      ],
+    },
+    opacityOverLifetime: {
+      isActive: true,
+      bezierPoints: [
+        { x: 0, y: 0.12, percentage: 0 },
+        { x: 0.1666, y: -0.0467 },
+        { x: 0.3499, y: 0.5316 },
+        { x: 0.5166, y: 0.365, percentage: 0.5166 },
+        { x: 0.6832, y: 0.1983 },
+        { x: 0.8333, y: 0.1665 },
+        { x: 1, y: 0, percentage: 1 },
+      ],
+    },
+    noise: { strength: 0.3, positionAmount: 0.278 },
+    _editorData: {
+      textureId: "POINT",
+      simulation: {
+        movements: "PROJECTILE_STRAIGHT",
+        movementSpeed: 0.6,
         rotation: "FOLLOW_THE_MOVEMENT",
         rotationSpeed: 0,
       },

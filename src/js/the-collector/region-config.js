@@ -19,7 +19,7 @@ const spawns = {};
 const portals = {};
 
 const clearVelocity = (unit) => {
-  unit.velocity.set(0, 0, 0);
+  unit.getModule(UnitModuleId.OCTREE_BEHAVIOR).clearVelocity();
 };
 
 export const initRegion = (area) => {
@@ -33,7 +33,9 @@ export const initRegion = (area) => {
     const region = module.createRegion({ id: id, area });
     if (id.includes("bottom")) {
       region.on.enter(staticParams.playersUnit.box, () => {
-        staticParams.playersUnit.teleportTo(spawns[lastSpawnPoint].position);
+        staticParams.playersUnit
+          .getModule(UnitModuleId.OCTREE_BEHAVIOR)
+          .teleportTo(spawns[lastSpawnPoint].position);
         staticParams.playersUnit.setRotation(
           Math.PI - spawns[lastSpawnPoint].rotation.y
         );
@@ -76,7 +78,9 @@ export const initRegion = (area) => {
         staticParams.isControlDisabled = true;
 
         const portal = portals[id];
-        staticParams.playersUnit.teleportTo(portal.position);
+        staticParams.playersUnit
+          .getModule(UnitModuleId.OCTREE_BEHAVIOR)
+          .teleportTo(portal.position);
 
         const effect = createParticleSystem(
           effectsConfig[EffectId.TELEPORT_ACTIVATE],
@@ -96,7 +100,9 @@ export const initRegion = (area) => {
           lastSpawnPoint = target;
           const spawn = spawns[target];
           staticParams.playersUnit.model.visible = true;
-          staticParams.playersUnit.teleportTo(spawn.position);
+          staticParams.playersUnit
+            .getModule(UnitModuleId.OCTREE_BEHAVIOR)
+            .teleportTo(spawn.position);
           staticParams.playersUnit.setRotation(Math.PI - spawn.rotation.y);
           staticParams.world.userData.tpsCamera.setRotation({
             x: Math.PI - spawn.rotation.y,

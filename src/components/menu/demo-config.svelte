@@ -1,4 +1,5 @@
 <script context="module">
+  import LevelUpWorldConfig from "./../../js/level-up/level-up-world-config.js";
   import TankBattleWorldConfig from "./../../js/tank-battle/tank-battle-world-config.js";
   import ArenaWorldConfig from "../../js/arena/arena-world-config";
   import CarSpeedDisplay from "../game/car-speed-display/car-speed-display.svelte";
@@ -248,6 +249,25 @@
         {
           keys: ["v"],
           name: "Change Tank Color",
+        },
+      ],
+    },
+    {
+      name: "Level up!",
+      description:
+        "This demo could be a good starting point of an adventure game. Random generated map with some units and with some collectables.",
+      preview: "./assets/demo-previews/level-up.webp",
+      worldConfig: LevelUpWorldConfig,
+      isPointerLockNeeded: false,
+      components: [GameClock, CollectedCoins],
+      controls: [
+        {
+          keys: ["Left Click"],
+          name: "Movement",
+        },
+        {
+          keys: ["c"],
+          name: "Change Camera",
         },
       ],
     },

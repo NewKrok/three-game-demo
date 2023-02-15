@@ -3,6 +3,10 @@ import * as THREE from "three";
 import { GLTFModelId, TextureId, assetsConfig } from "./assets-config";
 import { UnitId, unitConfig } from "./unit-config.js";
 import {
+  UnitModuleId,
+  WorldModuleId,
+} from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
+import {
   cameraDistances,
   playerControllerConfig,
 } from "./player-controller-config";
@@ -10,7 +14,6 @@ import { collectiblesData, initCollectible } from "./collectibles";
 
 import { CallLimits } from "@newkrok/three-utils/src/js/newkrok/three-utils/callback-utils.js";
 import { ObjectUtils } from "@newkrok/three-utils";
-import { WorldModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { availableCollectableCount } from "../../store/app";
 import { collectiblesModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/collectibles/collectibles-module.js";
 import { getDefaultWorldConfig } from "@newkrok/three-game/src/js/newkrok/three-game/world.js";
@@ -21,7 +24,7 @@ import { playerControllerModule } from "@newkrok/three-game/src/js/newkrok/three
 import { regionModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/region/region-module.js";
 import { staticParams } from "../static";
 import { thirdPersonCameraModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/third-person-camera/third-person-camera-module.js";
-import { tpsMovementModule } from "@newkrok/three-game/src/js/newkrok/three-game/unit/modules/tps-movements/tps-movements.js";
+import { tpsMovementModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/unit/modules/tps-movements/tps-movements.js";
 import { unitsModule } from "@newkrok/three-game/src/js/newkrok/three-game/world/modules/units/units-module.js";
 
 const TheCollectorWorldConfig = ObjectUtils.patchObject(
@@ -141,7 +144,9 @@ const TheCollectorWorldConfig = ObjectUtils.patchObject(
         unit.addModules([tpsMovementModule]);
 
         applySkin(unit.model, player.color);
-        unit.teleportTo(target.position);
+        unit
+          .getModule(UnitModuleId.OCTREE_BEHAVIOR)
+          .teleportTo(target.position);
         unit.setRotation(target.rotation.y);
 
         thirdPersonCamera.setTarget(unit.model);

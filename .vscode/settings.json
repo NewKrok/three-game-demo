@@ -11,6 +11,9 @@
     "Tweens",
     "threejs",
     "gsap",
-    "yoyo"
+    "yoyo",
+    "Raycaster",
+    "WOLFRIDER",
+    "ASTAR"
   ]
 }

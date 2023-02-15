@@ -75,6 +75,7 @@ export const assetsConfig = {
         materialType: THREE.MeshPhongMaterial,
         texture: {
           id: TextureId.CAR_1,
+          flipY: false,
         },
       },
     },
@@ -85,6 +86,7 @@ export const assetsConfig = {
         materialType: THREE.MeshPhongMaterial,
         texture: {
           id: TextureId.CAR_1,
+          flipY: false,
         },
       },
     },

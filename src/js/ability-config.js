@@ -2,6 +2,7 @@ import * as THREE from "three";
 
 import { EffectId, effectsConfig } from "./effects-config";
 
+import { UnitModuleId } from "@newkrok/three-game/src/js/newkrok/three-game/modules/module-enums.js";
 import { createParticleSystem } from "@newkrok/three-particles/src/js/effects/three-particles";
 
 export const AbilityId = {
@@ -63,12 +64,17 @@ export const abilityConfig = {
     on: {
       cast: ({ world, caster }) => {
         window.tpsDemo.game.ability[AbilityId.DASH]();
-        const dashSpeed = caster.onGround ? 45 : 20;
+        const dashSpeed = caster.getModule(UnitModuleId.OCTREE_BEHAVIOR)
+          .properties.onGround
+          ? 45
+          : 20;
         const direction = new THREE.Vector3();
         caster.model.getWorldDirection(direction);
-        caster.velocity.copy(
-          direction.multiply(new THREE.Vector3(dashSpeed, 0, dashSpeed))
-        );
+        caster
+          .getModule(UnitModuleId.OCTREE_BEHAVIOR)
+          .properties.capsule.velocity.copy(
+            direction.multiply(new THREE.Vector3(dashSpeed, 0, dashSpeed))
+          );
         caster.userData.isDashInProgress = true;
         setTimeout(() => (caster.userData.isDashInProgress = false), 400);
 

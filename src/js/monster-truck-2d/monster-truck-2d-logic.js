@@ -23,18 +23,6 @@ export const createMonsterTruck2DLogic = ({
   });
 
   [
-    car.body.model,
-    car.wheels.frontA.model,
-    car.wheels.frontB.model,
-    car.wheels.rearA.model,
-    car.wheels.rearB.model,
-  ].forEach((model) => {
-    model.traverse((child) => {
-      if (child.isMesh) child.material.map.flipY = false;
-    });
-  });
-
-  [
     car.wheels.frontA,
     car.wheels.frontB,
     car.wheels.rearA,
