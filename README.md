@@ -8,6 +8,7 @@ https://www.newkrok.com/three-game-demo/index.html
 
 # Videos
 
+- https://youtu.be/TZ7Mx1ExZLg
 - https://youtu.be/wE9oCLrew_c
 - https://youtu.be/46quUoY8d2w
 - https://youtu.be/SgFM573ADhI
@@ -45,6 +46,13 @@ https://www.newkrok.com/three-game-demo/index.html
   - https://assetstore.unity.com/packages/3d/vehicles/land/cartoon-tank-free-165189
   - https://assetstore.unity.com/packages/3d/props/low-poly-powerups-212079
   - https://assetstore.unity.com/packages/3d/environments/cube-world-brick-blocks-proto-series-153993
+- Level up!:
+  - https://assetstore.unity.com/packages/2d/textures-materials/water/stylize-water-texture-153577
+  - https://assetstore.unity.com/packages/3d/environments/low-poly-style-nature-66322
+  - https://assetstore.unity.com/packages/3d/characters/toon-rts-units-demo-69687
+  - https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/toon-rts-units-undead-demo-95640
+  - https://assetstore.unity.com/packages/3d/characters/humanoids/fantasy/toon-rts-units-orcs-demo-101359
+  - https://assetstore.unity.com/packages/2d/textures-materials/free-stylized-pbr-textures-pack-111778
 
 # Animations
 
